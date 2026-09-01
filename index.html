@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Dads — DM Bible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@600;700&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{--parchment:#f1e6c8;--parchment-dark:#e5d6ab;--ink:#2b1d10;--maroon:#58180d;--maroon-dark:#3d0f07;--gold:#9c7a3c;--gold-light:#c9a45c;--sidebar-w:230px;}
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{margin:0;background:#3a2e22;font-family:'EB Garamond', Georgia, serif;color:var(--ink);}
+
+  .app{display:flex;min-height:100vh;}
+
+  .sidebar{width:var(--sidebar-w);flex-shrink:0;background:linear-gradient(180deg, var(--maroon-dark), var(--maroon));color:var(--parchment);padding:20px 14px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+  .sidebar .brand{font-family:'Cinzel Decorative',serif;font-size:19px;text-align:center;margin-bottom:2px;letter-spacing:1px;}
+  .sidebar .brand-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;text-align:center;color:var(--gold-light);text-transform:uppercase;margin-bottom:12px;}
+  .savebar{display:flex;justify-content:center;align-items:center;gap:6px;margin-bottom:16px;font-size:10.5px;color:var(--parchment-dark);font-family:'Cinzel',serif;letter-spacing:1px;}
+  .savebar .dot{width:6px;height:6px;border-radius:50%;background:var(--gold-light);}
+  .savebar.saved .dot{background:#7fbf7f;}
+  .sidebar nav a{display:block;font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:0.5px;color:var(--parchment-dark);text-decoration:none;padding:7px 9px;border-radius:3px;margin-bottom:1px;text-transform:uppercase;line-height:1.3;}
+  .sidebar nav a:hover{background:rgba(255,255,255,0.08);}
+  .sidebar nav a.active{background:var(--gold-light);color:var(--maroon-dark);}
+  .sidebar .divider-line{border:none;border-top:1px solid rgba(255,255,255,0.2);margin:12px 0;}
+  .top-left-controls{position:fixed;top:12px;left:12px;z-index:50;display:flex;gap:8px;}
+  .menu-toggle{display:none;background:var(--maroon);color:var(--parchment);border:1px solid var(--gold);border-radius:4px;padding:8px 12px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;cursor:pointer;}
+  .menu-toggle:hover{background:var(--maroon-dark);}
+  .bottom-back-btn{display:inline-block;margin-top:24px;background:var(--maroon);color:var(--parchment);border:1px solid var(--gold);border-radius:4px;padding:9px 18px;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+  .bottom-back-btn:hover{background:var(--maroon-dark);}
+
+  .main{flex:1;background:var(--parchment);min-width:0;}
+  .content-wrap{max-width:760px;margin:0 auto;padding:30px 28px 70px;}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+  .toolbar button{font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;background:var(--parchment-dark);color:var(--maroon);border:1px solid var(--gold);padding:8px 12px;border-radius:3px;cursor:pointer;}
+
+  .view{display:none;}
+  .view.active{display:block;}
+  .view-head{border-bottom:3px solid var(--maroon);padding-bottom:10px;margin-bottom:16px;}
+  .view-head .eyebrow{font-family:'Cinzel',serif;color:var(--gold);font-size:11px;letter-spacing:3px;text-transform:uppercase;}
+  .view-head h1{font-family:'Cinzel Decorative',serif;color:var(--maroon);font-size:26px;margin:2px 0 0;}
+  .chapter-title{font-family:'Cinzel Decorative', serif;color:var(--maroon);font-size:26px;margin:2px 0 0;outline:none;}
+  .chapter-title:focus{background:rgba(255,255,255,0.5);}
+  .chapter-actions{margin:8px 0 16px;}
+  .chapter-actions button{font-family:'Cinzel',serif;font-size:10px;letter-spacing:1px;background:none;border:1px solid var(--gold);color:var(--maroon);padding:4px 8px;border-radius:3px;cursor:pointer;text-transform:uppercase;}
+
+  .content[contenteditable="true"]{outline:none;line-height:1.55;font-size:16px;min-height:24px;}
+  .content[contenteditable="true"]:focus{background:rgba(255,255,255,0.5);box-shadow:0 0 0 2px var(--gold-light) inset;border-radius:3px;padding:6px;}
+  .content h3{font-family:'Cinzel',serif;color:var(--maroon);font-size:16px;margin:16px 0 6px;}
+  .content h3::before{content:"◆ ";color:var(--gold);}
+  .content p{margin:8px 0;}
+  .content ul{margin:6px 0;padding-left:20px;}
+  .content table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px;}
+  .content th{background:var(--maroon);color:var(--parchment);font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.5px;text-transform:uppercase;padding:7px 8px;text-align:left;}
+  .content td{padding:7px 8px;border-bottom:1px solid var(--gold);}
+  .secret{background:#f6e2d8;border:2px solid #7a1414;border-radius:3px;padding:12px 16px;margin:12px 0;}
+  .xref{color:#1a54c4;font-weight:700;text-decoration:none;border-bottom:1px solid #1a54c4;cursor:pointer;}
+  .info-block{background:var(--parchment-dark);border:1px solid var(--gold);border-radius:3px;padding:10px 14px;margin:10px 0;}
+  .info-block .info-name{font-family:'Cinzel',serif;color:var(--maroon-dark);font-size:12.5px;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-weight:700;}
+  .info-block p{margin:4px 0;font-size:15px;}
+  .info-block ul{margin:4px 0;padding-left:20px;}
+  .npc-full{background:var(--parchment-dark);border:1px solid var(--gold);border-radius:3px;padding:12px 16px;margin:12px 0;}
+  .npc-full h3{margin-top:0;}
+  .faction-card{background:var(--parchment-dark);border:1px solid var(--gold);padding:12px 16px;border-radius:3px;margin:10px 0;}
+  .faction-card .fname{font-family:'Cinzel',serif;color:var(--maroon);font-size:16px;margin-bottom:6px;font-weight:700;}
+  .status-tag{display:inline-block;font-family:'Cinzel',serif;font-size:9px;letter-spacing:0.5px;text-transform:uppercase;padding:2px 7px;border-radius:8px;margin-left:8px;vertical-align:middle;font-weight:700;background:#e8dcc0;color:#8a6d1f;}
+  .faction-card p{margin:3px 0;font-size:14.5px;}
+  .calendar-tabs{display:flex;gap:8px;margin-bottom:14px;}
+  .calendar-tab{padding:8px 16px;border:1px solid var(--gold);border-radius:4px;background:var(--parchment-dark);cursor:pointer;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--maroon-dark);}
+  .calendar-tab.active{background:var(--maroon);color:var(--parchment);}
+  .calendar-month{display:none;}
+  .calendar-month.active{display:block;}
+  .calendar-title{font-family:'Cinzel Decorative',serif;text-align:center;font-size:20px;color:var(--maroon-dark);margin-bottom:10px;}
+  .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+  .calendar-weekday{font-family:'Cinzel',serif;font-size:10px;text-align:center;color:var(--gold);text-transform:uppercase;padding:4px 0;}
+  .calendar-day{background:var(--parchment-dark);border:1px solid var(--gold-light);border-radius:3px;min-height:64px;padding:4px 6px;font-size:11px;}
+  .calendar-day.empty{background:transparent;border:none;}
+  .calendar-day .day-num{font-family:'Cinzel',serif;font-weight:700;color:var(--maroon);font-size:12px;}
+  .calendar-day .day-note{font-size:9.5px;color:var(--ink);margin-top:2px;line-height:1.25;}
+  .calendar-day.has-note{background:#eee0be;border-color:var(--maroon);}
+  @media (max-width:520px){
+    .calendar-day{min-height:42px;padding:2px 3px;font-size:9px;}
+    .calendar-day .day-num{font-size:10px;}
+    .calendar-day .day-note{font-size:7.5px;}
+  }
+  .hub-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0;}
+  .hub-card{display:block;background:var(--parchment-dark);border:1px solid var(--gold);border-radius:4px;padding:10px 14px;text-decoration:none;cursor:pointer;}
+  .hub-card .hc-name{font-family:'Cinzel',serif;color:var(--maroon-dark);font-weight:700;font-size:13.5px;}
+  .hub-card .hc-sub{font-size:12px;color:#6b5a3a;font-style:italic;margin-top:2px;}
+  @media (max-width:520px){ .hub-grid{grid-template-columns:1fr;} }
+  .xref:hover{border-bottom-color:var(--maroon);}
+  .family-tree{margin:20px 0;}
+  .tree-group{margin-bottom:34px;}
+  .tree-group-title{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;text-align:center;}
+  .tree-tier{display:flex;justify-content:center;align-items:flex-start;gap:24px;flex-wrap:wrap;position:relative;margin:0 auto;}
+  .tree-connector{width:2px;height:22px;background:var(--gold);margin:0 auto;}
+  .tree-connector.dashed{background:none;border-left:2px dashed #b04a3a;height:22px;}
+  .tree-node{background:var(--parchment-dark);border:2px solid var(--gold);border-radius:6px;padding:8px 14px;text-align:center;min-width:110px;font-size:13.5px;}
+  .tree-node .tn-name{font-family:'Cinzel',serif;font-weight:700;color:var(--maroon-dark);font-size:12.5px;}
+  .tree-node .tn-role{font-size:10.5px;color:#8a7b58;font-style:italic;}
+  .tree-node.enemy{border-color:#7a1414;background:#f6e2d8;}
+  .tree-node.enemy .tn-name{color:#7a1414;}
+  .tree-pair{display:flex;align-items:center;gap:8px;}
+  .tree-pair-sep{font-family:'Cinzel',serif;color:var(--gold);font-size:16px;}
+  @media (max-width:520px){
+    .tree-tier{gap:12px;}
+    .tree-node{min-width:90px;padding:6px 10px;font-size:12px;}
+  }
+  .secret::before{content:"⚠ GM EYES ONLY";display:block;font-family:'Cinzel',serif;font-size:10px;letter-spacing:1.5px;color:#7a1414;font-weight:700;margin-bottom:8px;}
+  .log-entry{border-left:3px solid var(--gold);padding:6px 0 6px 12px;margin:10px 0;}
+  .log-entry .log-date{font-family:'Cinzel',serif;font-size:12px;color:var(--maroon);letter-spacing:1px;display:flex;justify-content:space-between;align-items:center;}
+  .log-entry .log-date input{font-family:'Cinzel',serif;font-size:12px;color:var(--maroon);border:none;background:transparent;letter-spacing:1px;width:140px;}
+  .add-log,.add-check,.add-row{font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;background:var(--parchment-dark);border:1px solid var(--gold);color:var(--maroon);padding:6px 10px;border-radius:3px;cursor:pointer;margin-top:8px;}
+  .checklist label{display:flex;align-items:flex-start;gap:8px;margin:6px 0;font-size:15px;}
+  .checklist input[type=checkbox]{margin-top:4px;}
+  .checklist .check-text[contenteditable="true"]{flex:1;outline:none;}
+  .checklist .checked .check-text{text-decoration:line-through;color:#7a6a4a;}
+  .remove-check,.remove-log,.remove-row{background:none;border:none;color:#7a1414;cursor:pointer;font-size:13px;}
+  .ddb-table td[contenteditable="true"]{outline:none;}
+  .ddb-table td[contenteditable="true"]:focus{background:rgba(255,255,255,0.5);}
+
+  /* Glossary / index view */
+  .glossary-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .glossary-card{display:block;text-decoration:none;background:var(--parchment-dark);border:1px solid var(--gold);border-radius:3px;padding:10px 14px;}
+  .glossary-card:hover{background:var(--gold-light);}
+  .glossary-card .gnum{font-family:'Cinzel',serif;font-size:9.5px;letter-spacing:1.5px;color:var(--gold);text-transform:uppercase;}
+  .glossary-card .gtitle{font-family:'Cinzel',serif;font-size:13.5px;color:var(--maroon-dark);margin-top:2px;}
+  .add-chapter-inline{display:block;width:100%;font-family:'Cinzel',serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;background:var(--parchment-dark);border:2px dashed var(--gold);color:var(--maroon);padding:14px;border-radius:4px;cursor:pointer;margin-top:14px;}
+
+  .mode-toggle{display:block;width:100%;font-family:'Cinzel',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;background:var(--gold-light);color:var(--maroon-dark);border:1px solid var(--gold-light);padding:8px 10px;border-radius:3px;cursor:pointer;margin-bottom:12px;}
+  body.session-view .toolbar,
+  body.session-view .chapter-actions,
+  body.session-view .add-check,
+  body.session-view .add-row,
+  body.session-view .add-log,
+  body.session-view .add-chapter-inline,
+  body.session-view .remove-check,
+  body.session-view .remove-row,
+  body.session-view .remove-log,
+  body.session-view .ddb-table th:last-child,
+  body.session-view .ddb-table td:last-child{display:none;}
+  body.session-view .content[contenteditable]:focus,
+  body.session-view .chapter-title:focus{background:none;box-shadow:none;padding:0;}
+  body.session-view .checklist .check-text{pointer-events:none;}
+
+  @media (max-width:820px){
+    .sidebar{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform 0.2s ease;z-index:40;box-shadow:4px 0 20px rgba(0,0,0,0.4);}
+    .sidebar.open{transform:translateX(0);}
+    .menu-toggle{display:block;}
+    .content-wrap{padding:64px 18px 60px;}
+    .glossary-grid{grid-template-columns:1fr;}
+  }
+
+  /* Master Timeline */
+  .dual-timeline{position:relative;margin:18px 0;}
+  .dual-timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;border-radius:2px;background:linear-gradient(180deg, var(--gold-light), var(--maroon), var(--gold-light));transform:translateX(-2px);z-index:0;}
+  .dt-legend{display:flex;justify-content:space-between;margin-bottom:14px;font-family:'Cinzel',serif;font-size:19px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+  .dt-legend span:first-child{color:#1f4566;}
+  .dt-legend span:last-child{color:#2f5c38;}
+  .tl-row{display:grid;grid-template-columns:1fr 14px 1fr;align-items:start;margin:8px 0;position:relative;}
+  .tl-left, .tl-right{min-width:0;}
+  .tl-left{padding-right:5px;}
+  .tl-right{padding-left:5px;grid-column:3;}
+  .tl-box{background:var(--parchment-dark);border:1px solid var(--gold);border-radius:4px;padding:5px 8px;position:relative;z-index:1;}
+  .tl-left .tl-box::after, .tl-right .tl-box::after{content:'';position:absolute;top:50%;width:14px;height:2px;background:var(--gold);z-index:0;}
+  .tl-left .tl-box::after{right:-14px;}
+  .tl-right .tl-box::after{left:-14px;}
+  .tl-title{font-family:'Cinzel',serif;font-size:11px;color:var(--maroon-dark);text-transform:uppercase;letter-spacing:0.2px;margin-bottom:2px;font-weight:700;}
+  .tl-date{font-family:'EB Garamond',serif;font-style:italic;font-size:10px;color:#8a7b58;margin-bottom:3px;}
+  .tl-box p{font-size:12px;margin:0;line-height:1.35;}
+  .tl-tag{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.5px;text-transform:uppercase;padding:1px 5px;border-radius:8px;margin-bottom:3px;}
+  .tl-tag.world{background:#dce8d6;color:#2f5c38;}
+  .tl-tag.boundary{background:#d3e0ec;color:#1f4566;}
+  .tl-tag.secret{background:#e8b8a8;color:#5c0e0e;}
+  /* Category tags — what kind of event this is */
+  .tl-cat{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.5px;text-transform:uppercase;padding:2px 7px;border-radius:8px;margin-bottom:3px;font-weight:700;}
+  .tl-cat.history{background:#d8d0c0;color:#4a3f2a;}
+  .tl-cat.backstory{background:#dce8d6;color:#2f5c38;}
+  .tl-cat.milestone{background:#e8b8a8;color:#5c0e0e;}
+  .tl-cat.session{background:#d3e0ec;color:#1f4566;}
+  .tl-cat.future{background:rgba(156,122,60,0.15);color:var(--gold);}
+  .tl-reveal{font-size:9.5px;font-style:italic;color:#8a7b58;}
+  .tl-reveal.known{color:#2f5c38;}
+  .tl-time-note{background:#f0d9a8;border:1px solid #c9a45c;border-radius:20px;padding:6px 16px;margin:14px auto;text-align:center;font-family:'EB Garamond',serif;font-style:italic;font-size:12.5px;color:#7a5a10;max-width:90%;position:relative;z-index:2;}
+  /* Importance tiers */
+  .tl-box.size-major{padding:10px 14px;border-width:2px;border-color:var(--maroon);box-shadow:2px 2px 0 rgba(0,0,0,0.08);}
+  .tl-box.size-major .tl-title{font-size:13px;}
+  .tl-box.size-major p{font-size:13px;}
+  .tl-box.size-minor{padding:4px 6px;}
+  .tl-box.size-minor .tl-title{font-size:9.5px;}
+  .tl-box.size-minor p{font-size:10.5px;}
+  /* Planned / future events */
+  .tl-box.planned{background:rgba(156,122,60,0.08);border-style:dashed;border-color:var(--gold);}
+  .tl-box.planned .tl-title{color:var(--gold);}
+  .tl-box.planned::before{content:'PLANNED';position:absolute;top:-8px;right:8px;background:var(--parchment);font-family:'Cinzel',serif;font-size:8px;letter-spacing:1px;color:var(--gold);padding:0 4px;}
+  /* The flip marker */
+  .tl-flip{position:relative;text-align:center;margin:22px 0;z-index:2;}
+  .tl-flip-marker{display:inline-block;background:var(--maroon);color:var(--parchment);font-family:'Cinzel Decorative',serif;font-size:13px;letter-spacing:1px;padding:8px 20px;border-radius:20px;border:2px solid var(--gold-light);box-shadow:0 2px 10px rgba(0,0,0,0.3);}
+  .tl-ref-table{background:var(--parchment-dark);border:1px solid var(--gold);border-radius:4px;padding:12px 16px;margin:14px 0;font-size:14px;}
+  .tl-ref-table .ref-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted var(--gold-light);}
+  .tl-ref-table .ref-row:last-child{border-bottom:none;}
+  .tl-ref-table .ref-label{font-weight:700;color:var(--maroon-dark);}
+  @media (max-width:400px){
+    .dual-timeline::before{left:14px;}
+    .dt-legend{display:none;}
+    .tl-row{grid-template-columns:1fr;}
+    .tl-left{grid-column:1;padding:0 0 0 26px;text-align:left;}
+    .tl-right{grid-column:1;padding:0 0 0 26px;}
+    .tl-left .tl-box::after, .tl-right .tl-box::after{left:-12px;right:auto;width:12px;}
+  }
+  /* Search — fixed top-right, visible on every page */
+  .topbar-search{position:fixed;top:12px;right:12px;z-index:55;width:150px;}
+  .topbar-search input{transition:width 0.15s ease;}
+  .topbar-search input:focus{width:100%;}
+  #siteSearch{width:100%;font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.5px;padding:9px 10px;border-radius:4px;border:1px solid var(--gold);background:var(--maroon);color:var(--gold-light);box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+  #siteSearch::placeholder{color:var(--parchment-dark);opacity:0.8;}
+  #siteSearch:focus{outline:none;background:var(--maroon-dark);}
+  #searchResults{display:none;position:absolute;top:100%;left:0;right:0;margin-top:4px;background:var(--parchment);border:1px solid var(--gold);border-radius:3px;max-height:280px;overflow-y:auto;z-index:60;box-shadow:0 4px 14px rgba(0,0,0,0.4);}
+  #searchResults.open{display:block;}
+  .search-result{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;font-family:'EB Garamond',serif;font-size:13.5px;color:var(--maroon-dark);text-decoration:none;border-bottom:1px solid var(--parchment-dark);}
+  .search-result:last-child{border-bottom:none;}
+  .search-result:hover{background:var(--parchment-dark);}
+  .search-result-type{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);}
+  .search-empty{padding:10px;font-size:13px;font-style:italic;color:#8a7b58;}
+  @media (max-width:820px){
+    .topbar-search{width:120px;}
+  }
+
+  /* Session Plan — scene boxes */
+  .scene-block{background:var(--parchment-dark);border:1px solid var(--gold);border-left:5px solid var(--maroon);border-radius:0 4px 4px 0;padding:14px 16px;margin:14px 0;}
+  .scene-block .scene-title{font-family:'Cinzel',serif;color:var(--maroon-dark);font-size:19px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+  .setup-box{background:#eee0be;border:1px dashed var(--gold);border-radius:3px;padding:8px 12px;font-size:13.5px;font-style:italic;margin:0 0 10px;}
+  .setup-box .sb-label{font-family:'Cinzel',serif;font-style:normal;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--maroon-dark);display:block;margin-bottom:4px;}
+  .beat-box{background:var(--parchment);border:1px solid var(--gold);border-radius:3px;padding:8px 12px;margin:0 0 10px;}
+  .beat-box .bb-label{font-family:'Cinzel',serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--maroon-dark);display:block;margin-bottom:5px;font-weight:800;}
+  .beat-box ul{margin:2px 0;padding-left:18px;font-size:14px;line-height:1.45;}
+  .beat-box ul li{margin-bottom:2px;}
+
+  .npc-chip-row{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 4px;}
+  .npc-chip{font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.5px;background:var(--parchment);border:1px solid var(--gold);color:var(--maroon-dark);padding:8px 12px;border-radius:6px;cursor:pointer;text-align:left;-webkit-tap-highlight-color:transparent;}
+  .npc-chip .chip-sub{display:block;font-family:'EB Garamond',serif;font-style:italic;font-size:10.5px;color:#8a7b58;margin-top:1px;font-weight:normal;letter-spacing:0;}
+  .npc-chip.open{background:var(--maroon);color:var(--parchment);border-color:var(--maroon-dark);}
+  .npc-chip.open .chip-sub{color:var(--gold-light);}
+
+  .npc-card{display:none;background:var(--parchment);border:1px solid var(--gold);border-left:4px solid var(--maroon);border-radius:0 6px 6px 0;padding:10px 14px;margin:6px 0 12px;}
+  .npc-card.open{display:block;}
+  .npc-card .card-name{font-family:'Cinzel',serif;color:var(--maroon);font-size:17px;font-weight:800;margin-bottom:7px;}
+  .npc-card .card-name .tag{font-family:'EB Garamond',serif;font-weight:normal;font-style:italic;font-size:11.5px;color:#8a7b58;}
+  .npc-card h4{font-family:'Cinzel',serif;font-size:12.5px;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;color:#8a7b58;margin:9px 0 4px;}
+  .npc-card h4:first-of-type{margin-top:0;}
+  .npc-card ul{margin:2px 0 8px;padding-left:18px;font-size:13.5px;line-height:1.4;}
+  .npc-card ul li{margin-bottom:2px;}
+  .npc-quote{font-size:12.5px;font-style:italic;color:#7a1414;background:#f6e2d8;border-radius:4px;padding:6px 9px;margin:5px 0;}
+  .npc-quote-label{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:#7a1414;display:block;margin-bottom:2px;font-style:normal;}
+  .npc-ddb-note{font-size:11px;color:#8a7b58;font-style:italic;margin-top:6px;padding-top:5px;border-top:1px dashed var(--gold);}
+
+  /* Session NPCs quick-access — scoped to the Session Plan page only, but fixed so it follows scroll */
+  .npc-panel-toggle{position:fixed;top:12px;right:172px;z-index:56;background:var(--maroon);color:var(--gold-light);border:1px solid var(--gold);border-radius:4px;padding:9px 12px;font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+  .npc-panel-toggle:hover{background:var(--maroon-dark);}
+  @media (max-width:820px){ .npc-panel-toggle{right:142px;} }
+  @media (max-width:480px){ .npc-panel-toggle{top:56px;right:12px;} }
+  .npc-panel{display:none;position:fixed;top:54px;right:172px;width:280px;max-width:85vw;max-height:70vh;background:var(--parchment);border:1px solid var(--maroon);border-radius:6px;z-index:56;overflow-y:auto;padding:14px;box-shadow:0 6px 20px rgba(0,0,0,0.35);}
+  @media (max-width:820px){ .npc-panel{right:142px;} }
+  @media (max-width:480px){ .npc-panel{top:96px;right:12px;} }
+  .npc-panel.open{display:block;}
+  .npc-panel-head{font-family:'Cinzel',serif;color:var(--maroon);font-size:13px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid var(--maroon);padding-bottom:6px;margin-bottom:8px;}
+  .npc-panel-close{position:absolute;top:8px;right:8px;background:none;border:1px solid var(--gold);color:var(--maroon);border-radius:4px;padding:3px 7px;font-family:'Cinzel',serif;font-size:10px;cursor:pointer;}
+  .npc-panel .npc-chip{display:block;width:100%;margin-bottom:5px;}
+  .npc-panel-scene-tag{display:inline-block;font-family:'Cinzel',serif;font-size:8px;letter-spacing:0.5px;text-transform:uppercase;padding:1px 6px;border-radius:8px;margin-left:6px;background:#d3e0ec;color:#1f4566;}
+  .npc-panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:15;}
+  .npc-panel-overlay.open{display:block;}
+
+  /* Bottom sidebar CTA — Session Plan link, outlined so it stands out without disrupting the menu */
+  .session-plan-nav-btn{display:block;font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:0.5px;color:var(--gold-light);text-decoration:none;padding:7px 9px;border-radius:3px;margin-top:10px;text-transform:uppercase;line-height:1.3;border:1px solid var(--gold-light);}
+  .session-plan-nav-btn:hover{background:rgba(255,255,255,0.08);}
+  .session-plan-nav-btn.active{background:var(--gold-light);color:var(--maroon-dark);border-color:var(--gold-light);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="top-left-controls">
+    <button class="menu-toggle" id="menuToggle">☰ Menu</button>
+  </div>
+
+  <div class="search-wrap topbar-search">
+    <input type="search" id="siteSearch" placeholder="Search…" autocomplete="off">
+    <div id="searchResults"></div>
+  </div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">THE DADS</div>
+    <div class="brand-sub">DM Bible</div>
+    <div class="savebar" id="savebar"><span class="dot"></span><span id="saveLabel">Loading…</span></div>
+    <button class="mode-toggle" id="modeToggle">Session View</button>
+    <nav id="sidebarNav"></nav>
+  </aside>
+
+  <main class="main">
+    <div class="content-wrap">
+      <div class="toolbar">
+        <button class="secondary" id="exportBtn">Export as text</button>
+        <button class="secondary" id="resetBtn">Reset to original</button>
+      </div>
+      <div id="views"></div>
+    </div>
+  </main>
+</div>
+
+<script>
+const STORAGE_KEY = 'dads-dm-bible-v1';
+
+const DEFAULT_DATA = {
+  chapters: [
+    { id:'story', num:'Chapter I', title:'Story', type:'html', content:`<p><em>The big-picture plot, broken into acts. Add to the bullets as sessions happen; write the "world at the end of this act" summary once the act actually closes.</em></p>
+
+<div class="info-block"><div class="info-name">Chapter 1 — In Progress</div><p>Spans from Session 1 to arrival at <span class="xref" onclick="showView('boundary-crowsnest');return false;">the Crow's Nest</span>.</p></div>
+
+<h3>On the way to Crabshack</h3>
+<div class="info-block"><ul>
+<li>Defeated <span class="xref" onclick="return jumpTo('npcs','general guy')">General Gai</span> in a boat battle — Orin took his Jade Chain Blades</li>
+<li>Met <span class="xref" onclick="return jumpTo('npcs','jacklyn')">Jacklyn</span> briefly</li>
+</ul></div>
+
+<h3>At the Bells End</h3>
+<div class="info-block"><ul>
+<li>Met Bing &amp; Bong, took on the barkeep's Allistar Ratsilla bounty</li>
+</ul></div>
+
+<h3>At Crabshack</h3>
+<div class="info-block"><ul>
+<li>Met Tide for the first time</li>
+<li>Sabotaged <span class="xref" onclick="return jumpTo('npcs','snarlywinkle')">Snarlywinkle's</span> reputation instead of helping his siege — fake wall postings</li>
+<li>Killed and impersonated the town mayor for information</li>
+<li>Recruited Froth and Chef Nathan; robbed several houses (Biggie); bought arcane energy blockers from Major Plot Twist; met Shipoo in the lighthouse</li>
+<li>Promised the fisherman they'd save his sister</li>
+</ul></div>
+
+<h3>The Heist</h3>
+<div class="info-block"><ul>
+<li>Infiltrated the southern navy stronghold: killed a Goliath, discovered the Soul Room, solved an arcane security puzzle, saw Tide glow purple</li>
+<li>Confronted the Warden. Aric wiped the party's memory of Orin's kids (except Orin and Cheese/Wine); Billy kept his memory of Tide. Aric took Tide and Wine</li>
+<li>Accidentally triggered a mass-casualty stampede in the Soul Room while checking for the kids during the escape</li>
+<li>Lost their ship (the Big Daddy) and their gold to a misfired cannon crashing it into the stronghold</li>
+<li>Revealed: Judy had been invisible and following them the whole time</li>
+<li>The fisherman's sister died during the heist, in front of him</li>
+</ul></div>
+
+<h3>Between the Heist and the Crow's Nest</h3>
+<div class="info-block"><p><strong>Current status:</strong> penniless, down a ship, heading toward a probable Snarlywinkle encounter, then on to the Crow's Nest.</p></div>
+
+<p><em>World-state summary: to be written once Chapter 1 actually closes at the Crow's Nest.</em></p>
+
+<h3>Act 2</h3>
+<div class="info-block"><p><em>Not started yet.</em></p></div>
+
+<h3>Act 3</h3>
+<div class="info-block"><p><em>Not started yet.</em></p></div>` },
+
+    { id:'world', num:'Chapter II', title:'The World', type:'html', content:`<div class="info-block"><ul>
+<li>The inner boundary is the most diverse and magically advanced region on the planet — the arcane energy at its center is unique to it</li>
+<li>Outside the inner boundary, other regions exist but keep no shared calendar with it — see the <span class="xref" onclick="return jumpTo('timeline','time dilation reference')">Time Dilation Reference</span> in the Master Timeline</li>
+<li><strong>No Man's Land</strong> — siren island en route to the Crow's Nest. See <span class="xref" onclick="return jumpTo('boundary-nomansland','No Man\'s Land')">the No Man's Land</span> reference page.</li>
+</ul></div>
+
+<h3>Safire</h3>
+<div class="info-block"><p>Billy's home region — a fishing culture built around a fear of the sea witches' judgment. Anyone who can't contribute to the village is believed to be banished to the sea for the ocean witches to judge.</p></div>
+
+<h3>Cult of the Elitists</h3>
+<div class="info-block"><p>Orin's home region — a culture raised believing its people are the master race, all others beneath them. Rooted in a hidden library discovery revealing their true, humbler origins (they were hunted for sport, forced to dance for coin, before evolving).</p></div>
+
+<h3>The Inner Boundary</h3>
+<div class="info-block"><p>Everywhere the crew has actually set foot is somewhere in here. Tap a place below for what's there.</p></div>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('boundary-bellsend');return false;"><div class="hc-name">the bells end</div><div class="hc-sub">Bing &amp; Bong, Jacklyn</div></a>
+  <a href="#" class="hub-card" onclick="showView('boundary-crabshack');return false;"><div class="hc-name">Crabshack isle</div><div class="hc-sub">Snarlywinkle's hidden community</div></a>
+  <a href="#" class="hub-card" onclick="showView('boundary-stronghold');return false;"><div class="hc-name">southern navy stronghold</div><div class="hc-sub">site of the amulet heist</div></a>
+  <a href="#" class="hub-card" onclick="showView('boundary-nomansland');return false;"><div class="hc-name">No Man's Land</div><div class="hc-sub">siren island — en route to the Crow's Nest</div></a>
+  <a href="#" class="hub-card" onclick="showView('boundary-crowsnest');return false;"><div class="hc-name">the crow's nest</div><div class="hc-sub">current destination</div></a>
+</div>` },
+
+    { id:'boundary-bellsend', num:'Reference', title:'the bells end', sub:true, type:'html', content:`<div class="info-block"><ul>
+<li>Ruled by Bing &amp; Bong</li>
+<li>Met Jacklyn nearby</li>
+<li>Bing tasked the party with finding his missing brother Bong</li>
+</ul></div>` },
+
+    { id:'boundary-crabshack', num:'Reference', title:'Crabshack isle', sub:true, type:'html', content:`<div class="info-block"><p>Once the most respected island in the inner boundary, home to magical monk-folk of various animal forms — now secretly a pirate community under <span class="xref" onclick="return jumpTo('npcs','snarlywinkle')">Snarlywinkle</span>, disguised as if nothing changed.</p></div>
+<div class="info-block"><ul>
+<li>Party sabotaged Snarlywinkle's reputation with fake wall postings</li>
+<li>Killed and impersonated the town mayor for information</li>
+<li>Recruited Froth and Chef Nathan</li>
+<li>Robbed several houses (Biggie)</li>
+<li>Visited the Arcane District for energy blockers</li>
+<li>Met Shipoo in the lighthouse</li>
+</ul></div>` },
+
+    { id:'boundary-stronghold', num:'Reference', title:'southern navy stronghold', sub:true, type:'html', content:`<div class="info-block"><p>Site of the amulet heist — now complete.</p></div>
+<div class="info-block"><ul>
+<li>Infiltrated via the warehouse, killed a Goliath</li>
+<li>Found the Soul Room — a chamber of lifeless standing bodies, tied to the amulet. The party struck one, waking it.</li>
+<li>Confronted the Warden in the arena/medbay area</li>
+<li>Caused the Soul Room stampede during their escape</li>
+<li>Lost their ship (the Big Daddy) to a misfired cannon that crashed it into the stronghold</li>
+</ul></div>
+<div class="secret">
+<p><strong>Resolved:</strong> waking the Soul Room bodies caused a panic — thousands tried fleeing through one small crawl-hole exit, creating a horrific pile-up. The party caused this while checking whether Orin's kids were inside (they weren't) during their escape. Some may still have been alive inside — the party fled and left them.</p>
+<p>Tristan (Billy's player) asked, above table, to retroactively spend a natural 20 to save one woman his character dodged — visibly upset the party's carelessness caused mass death. This is playing into Billy's trauma and lowered self-trust, compounded by being separated from Marilda and Tide again.</p>
+</div>` },
+
+    { id:'boundary-nomansland', num:'Reference', title:"No Man's Land", sub:true, type:'html', content:`<div class="info-block"><p>A siren-run island the party will pass near on the way to the Crow's Nest — not yet visited.</p></div>
+<div class="info-block"><ul>
+<li>Ruled by a figure known only as "Mother"</li>
+<li>Reused/adapted from a previous group's run — full arc ran as two sessions there</li>
+<li>Party gets a premonition of something they each desire as they pass, which is what draws them toward it — entirely their choice whether to stop and investigate</li>
+<li>Full scene-by-scene plan lives in the Session Plan, Scene 3 (tap to expand there)</li>
+</ul></div>` },
+
+{ id:'boundary-crowsnest', num:'Reference', title:"the crow's nest", sub:true, type:'html', content:`<div class="info-block"><ul>
+<li>Current destination — where Aric took the kidnapped kids and Wine</li>
+<li>Home to the King and the upcoming Coronation</li>
+<li>Party must reach the king before it happens; his identity is revealed there</li>
+</ul></div>` },
+
+    { id:'players', num:'Chapter III', title:'Players', type:'html', content:`<p>Tap a name for their full write-up.</p>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('player-billy');return false;"><div class="hc-name">Billy Buckeye</div><div class="hc-sub">Paladin 5 — party captain</div></a>
+  <a href="#" class="hub-card" onclick="showView('player-orin');return false;"><div class="hc-name">Orin the Jackhammer</div><div class="hc-sub">Ranger 5</div></a>
+  <a href="#" class="hub-card" onclick="showView('player-cheesenwine');return false;"><div class="hc-name">Cheese n Wine</div><div class="hc-sub">Sorcerer 4 — split personality</div></a>
+</div>` },
+
+    { id:'player-billy', num:'Reference', title:'Billy Buckeye', sub:true, type:'html', content:`<div class="info-block"><div class="info-name">Background</div><p>From Amuli, a fishing village in Safire. Safire's culture: anyone who can't contribute to the village is believed to be banished to the sea for the ocean witches to judge — Billy grew up afraid of the water because of this. Met Marilda at 15; she loved the sea and eventually got him to overcome his fear by pulling him into the water with her. They married, had Tide. Billy became a fisherman.</p></div>
+<div class="info-block"><div class="info-name">His Own Understanding</div><p>Billy's own written backstory: one day, walking the beach with Marilda and Tide, a mist rolled in and a cloaked figure appeared, said only "nice family," and vanished — when the mist cleared, Marilda and Tide were gone. This is Tristan's own simplified version — it compresses the real, more complicated timeline in <span class="xref" onclick="return jumpTo('family','the real marilda/aric/tide timeline')">Family Threads</span>. Treat it as his character's understanding, not necessarily the full truth as written.</p></div>
+<div class="info-block"><div class="info-name">Player Note</div><p>Seasoned player, deeply invested in character continuity and consequence. Plays trauma and guilt with real weight — treat his character moments as load-bearing.</p></div>` },
+
+    { id:'player-orin', num:'Reference', title:'Orin the Jackhammer', sub:true, type:'html', content:`<div class="info-block"><div class="info-name">Background</div><p>From a region culturally similar to the Cult of the Elitists — raised believing his species was the master race and all others beneath them. At age 3 he found an old library outside his home borough revealing his species' true, humbler origins. Punished harshly by the townsfolk for it — forced into a degrading, weeks-long ordeal tied to his species' breeding customs that left him unable to speak for weeks afterward. The locals nicknamed him "Orin the Jackhammer" after.</p></div>
+<div class="info-block"><div class="info-name">The Kids</div><p>He emerged to find many local females visibly pregnant — his children. With no way to provide for them (500gp to his name, nowhere near enough), he saw a crew recruitment ad and used it as a way to escape the responsibility. Wields the evolving <span class="xref" onclick="return jumpTo('artifacts','jade chain blades (orin)')">Jade Chain Blades</span>, taken from General Gai.</p></div>
+<div class="info-block"><div class="info-name">Player Note</div><p>Brand new to D&amp;D, loves recreating movie beats, sometimes assumes things work because "it's D&amp;D." Say yes-and-a-roll rather than shutting these down.</p></div>` },
+
+    { id:'player-cheesenwine', num:'Reference', title:'Cheese n Wine', sub:true, type:'html', content:`<div class="info-block"><div class="info-name">Background</div><p>Elvish noble born in a foreign land called Nevirismuth. As a child, playing outside the family manor walls, he was groomed and abducted by an underground criminal gang called the <span class="xref" onclick="return jumpTo('c7','the levellers')">Levellers</span>, taken through a teleportation circle to their Inner Boundary branch — hidden in a cave in a volcanic valley. Grew up there, now ~28, working his way up the ranks; this branch leans more pirate than the Levellers' other operations. Gaunt, tall half-elf, almost skeletal, tattered black clothing, bandolier of pouches.</p></div>
+<div class="info-block"><div class="info-name">Split Personality</div><p><strong>Cheese</strong> — smirking, tricky, cheeky. <strong>Wine</strong> — pure disgust and disdain for the world.</p></div>
+<div class="info-block"><div class="info-name">Unresolved</div><p>Per the old campaign notes, he "woke up lost on a boat" and met the other two — not yet clear how this connects to the Levellers backstory, possibly one personality acting without the other's knowledge. Ask the player.</p></div>
+<div class="info-block"><div class="info-name">Player Note</div><p>Seasoned but still finding footing with the dual-personality mechanic. Wine has since been kidnapped by Aric.</p></div>` },
+
+    { id:'family', num:'Chapter IV', title:'Family Threads', type:'html', content:`<div class="family-tree">
+
+<div class="tree-group">
+  <div class="tree-group-title">The Buckeye Family</div>
+  <div class="tree-tier">
+    <div class="tree-pair">
+      <div class="tree-node"><div class="tn-name">Billy Buckeye</div><div class="tn-role">married to Marilda</div></div>
+      <div class="tree-pair-sep">⚭</div>
+      <div class="tree-node"><div class="tn-name">Marilda</div><div class="tn-role">legendary pirate</div></div>
+    </div>
+  </div>
+  <div class="tree-connector"></div>
+  <div class="tree-tier">
+    <div class="tree-node"><div class="tn-name">Tide (Allistar)</div><div class="tn-role">raised as their son</div></div>
+  </div>
+  <div class="tree-connector dashed"></div>
+  <div class="tree-tier">
+    <div class="tree-node enemy"><div class="tn-name">Aric the Adulterer</div><div class="tn-role">biological father — forced on Marilda</div></div>
+  </div>
+</div>
+
+<div class="tree-group">
+  <div class="tree-group-title">The Jackhammer Family</div>
+  <div class="tree-tier">
+    <div class="tree-node"><div class="tn-name">Orin the Jackhammer</div><div class="tn-role">Ranger</div></div>
+  </div>
+  <div class="tree-connector"></div>
+  <div class="tree-tier">
+    <div class="tree-node"><div class="tn-name">Simon</div><div class="tn-role">telekinesis — taken</div></div>
+    <div class="tree-node"><div class="tn-name">Ruby</div><div class="tn-role">shapeshift — taken</div></div>
+    <div class="tree-node"><div class="tn-name">Judy</div><div class="tn-role">invisibility — safe</div></div>
+    <div class="tree-node"><div class="tn-name">Persephone</div><div class="tn-role">eagle-bear, fire — taken</div></div>
+  </div>
+</div>
+
+</div>
+
+<h3>The Real Marilda/Aric/Tide Timeline</h3>
+<div class="info-block"><ul>
+<li>Marilda joined the trapped prophecy captain's original voyage; found the amulet, became a legendary pirate</li>
+<li>Aric — then a low-level warden — captured her, forced marriage, fathered Tide. Later used the amulet to seize control of the Navy</li>
+<li>Marilda escaped, returned to Billy — only a day had passed for him. Told him the child was his; they raised Tide together for six years</li>
+<li>Aric took both Marilda and Tide back. Tide raised as a Navy soldier, named <strong>Allistar</strong>. Escaped ~4 years later (his time) to join Snarlywinkle — not loyalty, just his best shot at helping his mother</li>
+<li>Billy eventually got his own invitation, set sail, found Tide waiting at Crabshack — aged into his 40s</li>
+<li>Taken again by Aric at end of the stronghold heist. Billy remembers him; no one else does</li>
+<li>Marilda glimpsed briefly, chained. Her current status — willing vs. coerced — still undecided by the DM; keep ambiguous</li>
+</ul></div>
+<div class="info-block"><p><em>Tristan's own written backstory (mist, cloaked figure, vanish-together) is Billy's simplified understanding — not the literal truth. Could become a moment where Billy learns how wrong his assumptions were.</em></p></div>
+
+<h3>Orin's Kids</h3>
+<div class="info-block"><p>Stowed away after Orin tried to flee responsibility; aged to pre-teens within days, one bonded with a baby eagle-bear (also Orin's). Jacklyn "babysat" them once — came back with powers, normal aging restored. During the Warden confrontation, everyone except Orin and Cheese/Wine had their memories of the kids wiped.</p></div>
+
+<h3>Cheese n Wine</h3>
+<div class="info-block"><p>No children to steal — Aric took the <strong>Wine</strong> personality itself instead. Still unresolved how this connects to the "woke up lost on a boat" origin.</p></div>` },
+
+    { id:'npcs', num:'Chapter V', title:'NPCs', type:'html', content:`<h3>Friendly</h3>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('npc-mercy');return false;"><div class="hc-name">Mercy Murdersome</div><div class="hc-sub">Cleric, party anchor</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-buckeye');return false;"><div class="hc-name">the Buckeye family</div><div class="hc-sub">Marilda &amp; Tide</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-jackhammer');return false;"><div class="hc-name">the Jackhammer family</div><div class="hc-sub">Orin's kids</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-biggie');return false;"><div class="hc-name">Biggie Wiggie</div><div class="hc-sub">Wizard, wildcard</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-jeoph');return false;"><div class="hc-name">Jeoph McGullywuff</div><div class="hc-sub">the party's captain</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-nathan');return false;"><div class="hc-name">Chef Nathan</div><div class="hc-sub">ship's chef</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-jacklyn');return false;"><div class="hc-name">Jacklyn McKacklyn</div><div class="hc-sub">mermaid</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-pooguey');return false;"><div class="hc-name">Pooguey</div><div class="hc-sub">mystery shell</div></a>
+</div>
+<h3>Neutral</h3>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('npc-snarlywinkle');return false;"><div class="hc-name">Captain Snarlywinkle</div><div class="hc-sub">pirate faction leader</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-king');return false;"><div class="hc-name">the King</div><div class="hc-sub">Crow's Nest ruler</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-shipoo');return false;"><div class="hc-name">Shipoo</div><div class="hc-sub">soul in a body</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-mpt');return false;"><div class="hc-name">Major Plot Twist</div><div class="hc-sub">praying mantis wizard</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-froth');return false;"><div class="hc-name">Froth</div><div class="hc-sub">ex-inmate</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-howard');return false;"><div class="hc-name">Howard</div><div class="hc-sub">the world itself</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-davin');return false;"><div class="hc-name">Davin</div><div class="hc-sub">sea dragon</div></a>
+</div>
+<h3>Enemy</h3>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('npc-aric');return false;"><div class="hc-name">Aric</div><div class="hc-sub">Head of the Navy</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-generalguy');return false;"><div class="hc-name">General Guy</div><div class="hc-sub">Session 1 boss</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-fruitman');return false;"><div class="hc-name">the Fruit Man</div><div class="hc-sub">Bells End fruit stand</div></a>
+</div>` },
+
+    { id:'npc-mercy', num:'Reference', title:'Mercy Murdersome', sub:true, type:'html', content:`<div class="info-block"><p>A medic from her village's army, about to be banished for the "war crime" of showing mercy. Joined the pirates as a last chance at survival — wants to clear her name and prove mercy has a place. Handles social encounters, warns against dangerous plans. Now sees Billy as a well-meaning, scared young man rather than a leader to be feared.</p></div>` },
+
+    { id:'npc-buckeye', num:'Reference', title:'the Buckeye family', sub:true, type:'html', content:`<div class="info-block"><p>Marilda and Tide. See <span class="xref" onclick="return jumpTo('family','the buckeye family')">Family Threads</span> for the full timeline.</p></div>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('npc-marilda');return false;"><div class="hc-name">Marilda</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-tide');return false;"><div class="hc-name">Tide</div></a>
+</div>` },
+
+    { id:'npc-marilda', num:'Reference', title:'Marilda', sub:true, type:'html', content:`<div class="info-block"><ul>
+<li>Billy's wife — a legendary pirate, found the first clue to the prophecy (the amulet)</li>
+<li>Biological mother of Tide, fathered by Aric</li>
+<li>Currently held by Aric — willing acceptance vs. pure coercion still undecided by the DM, keep ambiguous</li>
+</ul></div>` },
+
+    { id:'npc-tide', num:'Reference', title:'Tide (Allistar)', sub:true, type:'html', content:`<div class="info-block"><ul>
+<li>Billy and Marilda's "son" — biologically Aric's</li>
+<li>Named Allistar by Aric, raised as a Navy soldier from age 6</li>
+<li>Escaped to Snarlywinkle's crew ~4 years later (his time) to try to help his mother</li>
+<li>Doesn't trust Billy with the full truth yet, hates Aric</li>
+<li>Taken again by Aric at the end of the stronghold heist — Billy remembers him, no one else does</li>
+</ul></div>` },
+
+    { id:'npc-jackhammer', num:'Reference', title:'the Jackhammer family', sub:true, type:'html', content:`<div class="info-block"><p>Orin's kids, stowed away after he tried to flee responsibility. Aged to pre-teens within days.</p></div>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('npc-simon');return false;"><div class="hc-name">Simon</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-ruby');return false;"><div class="hc-name">Ruby</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-judy');return false;"><div class="hc-name">Judy</div></a>
+  <a href="#" class="hub-card" onclick="showView('npc-persephone');return false;"><div class="hc-name">Persephone</div></a>
+</div>` },
+
+    { id:'npc-simon', num:'Reference', title:'Simon', sub:true, type:'html', content:`<div class="info-block"><p>Force-grab / telekinesis. Taken by Aric.</p></div>` },
+    { id:'npc-ruby', num:'Reference', title:'Ruby', sub:true, type:'html', content:`<div class="info-block"><p>Shapeshifting. Taken by Aric.</p></div>` },
+    { id:'npc-judy', num:'Reference', title:'Judy', sub:true, type:'html', content:`<div class="info-block"><p>Invisibility + see invisibility (revealed at end of heist). Safe — was secretly following the party invisibly the whole time. This dual power is likely why Aric didn't/couldn't take her too.</p></div>` },
+    { id:'npc-persephone', num:'Reference', title:'Persephone', sub:true, type:'html', content:`<div class="info-block"><p>Eagle-bear form, fire breathing. Taken by Aric — Orin's clear favorite.</p></div>` },
+
+    { id:'npc-biggie', num:'Reference', title:'Biggie Wiggie', sub:true, type:'html', content:`<div class="info-block"><p>A mentalist magician from a hometown called Manehole Cover. Pulled off a large stunt on his king, got caught, joined the pirates as an escape route. Wants to gain enough power to eventually take his hometown back for himself. Conman, thief, strategist — working with the Navy, the pirates, and the party at once; true alignment still undecided. Robbed a string of houses in Crabshack while the party was busy elsewhere. Disappeared during the heist; resurfaces at the Crow's Nest.</p></div>
+<div class="secret"><p>Triple-agenting the Navy, the pirates, and the party. Keep the party trusting him until the Crow's Nest reveal.</p></div>` },
+
+    { id:'npc-jeoph', num:'Reference', title:'Jeoph McGullywuff', sub:true, type:'html', content:`<div class="info-block"><p>The party's captain. Tries to sound tough ("Bloodboiler"), constantly breaks into a sappy, anxious teenager.</p></div>` },
+
+    { id:'npc-nathan', num:'Reference', title:'Chef Nathan', sub:true, type:'html', content:`<div class="info-block"><p>Picked up at Crabshack. Passionate about food.</p></div>` },
+
+    { id:'npc-jacklyn', num:'Reference', title:'Jacklyn McKacklyn', sub:true, type:'html', content:`<div class="info-block"><p>Kraken/squid woman, mermaid form. From a planet of highly intelligent squid; torn from her world into a celestial "delivery store," ended up in Howard's ocean. Met Howard, formed a bond; he freed more beings to keep her company, including Davin. Now single, wants to prove positive magic use is possible. The party likes her, believes they could call on her for help — but have only tested it once.</p></div>
+<div class="secret"><p>Party has no idea she's connected to Howard/cosmology at all — to them she's just a mermaid who's helped a couple of times.</p></div>` },
+
+    { id:'npc-pooguey', num:'Reference', title:'Pooguey', sub:true, type:'html', content:`<div class="info-block"><p>The sealed shell the crew's carried since the start. Woken up in one session, got furious, jumped off the boat, swam away. Crossed paths with Jacklyn at some point after.</p></div>` },
+
+    { id:'npc-snarlywinkle', num:'Reference', title:'Captain Snarlywinkle', sub:true, type:'html', content:`<div class="info-block"><p>See <span class="xref" onclick="return jumpTo('c7','pirates')">Factions</span> for his full community/leadership details.</p></div>
+<div class="info-block"><ul><li>Was part of the original prophecy captain's crew, abandoned when the captain found his first clue</li>
+<li>Built the whole Crabshack pirate community hoping enough trust/manpower would help him recover the amulet himself — never actually received the prophecy</li>
+<li>Party sabotaged his siege and took the amulet themselves — he doesn't know that yet</li>
+<li>Due to cross paths with the party again on the way out of the stronghold</li></ul></div>` },
+
+    { id:'npc-king', num:'Reference', title:'the King', sub:true, type:'html', content:`<div class="info-block"><p>Ruler of the Crow's Nest. Identity to be revealed at the Coronation. Not yet met by the party.</p></div>` },
+
+    { id:'npc-shipoo', num:'Reference', title:'Shipoo', sub:true, type:'html', content:`<div class="info-block"><p>Found bound to a body in the stronghold's Soul Room, woken by the crew. No longer a ghost stuck in the lighthouse — a soul back in a body, traveling with the party now.</p></div>` },
+
+    { id:'npc-mpt', num:'Reference', title:'Major Plot Twist', sub:true, type:'html', content:`<div class="info-block"><p>A praying mantis of a wizard, met in Crabshack's Arcane District. Sold the crew arcane energy blockers.</p></div>` },
+
+    { id:'npc-froth', num:'Reference', title:'Froth', sub:true, type:'html', content:`<div class="info-block"><p>An ex-inmate of a different navy stronghold. PTSD, foams at the mouth. His brother Sloth is the Crabshack tavern bartender.</p></div>` },
+
+    { id:'npc-howard', num:'Reference', title:'Howard', sub:true, type:'html', content:`<div class="info-block"><p>A celestial oceanic being whose body is the world/ocean. Sacrificed power for his inhabitants; now mortal, dying slowly. Only ever met Jacklyn and a few sea witches directly.</p></div>
+<div class="secret"><p>Not known to the players at all — they haven't connected Jacklyn, the "Howard conspiracy" line, or any of this cosmology yet.</p></div>` },
+
+    { id:'npc-davin', num:'Reference', title:'Davin', sub:true, type:'html', content:`<div class="info-block"><p>One of the last sea dragons of his world, freed by Howard, formerly Jacklyn's partner of centuries. Now believes all magic users are unworthy of the power and that death is the only real answer to the "arcane problem" — tests his victims' moral compass first but rarely believes a positive result. Left Jacklyn over her permissive approach to magic. May align with the vengeful sea-witch faction later.</p></div>` },
+
+    { id:'npc-aric', num:'Reference', title:'Aric', sub:true, type:'html', content:`<div class="info-block"><ul>
+<li>Started as a low-ranking, unremarkable navy prison warden — nobody of consequence</li>
+<li>Kidnapped Marilda after she'd already become a legendary pirate and found the amulet; forced marriage, used her body and magical ability</li>
+<li>Used the amulet to seize enormous power, became head of the entire Navy</li>
+<li>Secretly the father of Billy's "son" Tide — whom Aric calls <strong>Allistar</strong></li>
+<li>Just kidnapped four of Orin's kids and Wine, leaving the party with tampered memories</li>
+<li>Glowed purple during the heist/final fight, as did Billy and Tide</li>
+</ul></div>
+<div class="info-block"><div class="info-name">What the players know</div><p>Aric wants Tide, but not why. They may be starting to suspect.</p></div>
+<div class="secret">
+<p><strong>Aric can project himself.</strong> His true physical body sits in the capital. Every "Warden" the party has met at different strongholds is a projection — this is why his body goes still/blank at odd moments. Not yet revealed.</p>
+<p><strong>Allistar.</strong> A deliberate long-game reveal, not a naming error — keep dropping the name until the players connect it to Tide themselves.</p>
+<p><strong>Plan to resurface the Howard-conspiracy line:</strong> reintroduce diegetically — an NPC repeats it, a record surfaces, a recurring vision — or a "Previously On" cold open. Avoid a flat recap; it would telegraph the reveal.</p>
+</div>` },
+
+    { id:'npc-generalguy', num:'Reference', title:'General Guy', sub:true, type:'html', content:`<div class="info-block"><p>Session 1 boss — jade chain blade bull-man (Kai), source of Orin's weapon. Defeated, swore it wasn't the last they'd see of him.</p></div>` },
+
+    { id:'npc-fruitman', num:'Reference', title:'the Fruit Man', sub:true, type:'html', content:`<div class="info-block"><p>Runs a fruit stand at Bells End. Not on good terms with the crew after Orin's kids stole from him — turned into an actual fight over what they owed him.</p></div>` },
+
+    { id:'c7', num:'Chapter VI', title:'Factions', type:'html', content:`<div class="faction-card"><div class="fname">Crabshack Pirates</div><p>Led by <strong>Snarlywinkle</strong>. Was part of the original prophecy captain's crew, abandoned when the captain found his first clue. Believes the captain made it out alone; built a whole pirate community at Crabshack (enslaving/replacing its original monk inhabitants, disguised as animals) hoping enough trust and manpower would help him recover the amulet himself — he never actually received the prophecy. Asked the party to help plan a siege on the amulet; they snuck in ahead and took it themselves, badly damaging his standing and their relationship with him. Party is due to cross his ship on the way out of the stronghold — an unplanned, tense encounter still to come. He doesn't yet know they pulled off the heist themselves.</p></div>
+<div class="faction-card"><div class="fname">Sea Witches</div><p>First sentient life in the inner boundary; discovered magic, ruled for a time, then were overthrown/enslaved by the pirates once pirates learned to bind their power via magical contracts. Recently freed by the party — friendly for now. Future split planned: witches wanting their coven restored vs. witches bent on revenge — may align with Davin's agenda.</p></div>
+<div class="faction-card"><div class="fname">The Navy</div><p>Led by Aric. Officially keeps the peace in the inner boundary; in practice, rules increasingly through fear and undead soldiers of unclear origin.</p></div>
+<div class="faction-card"><div class="fname">Bullywugs <span style="font-weight:normal;font-style:italic;">(rising importance)</span></div><p>Frog-folk faction — gaining significance going forward. Details to fill in as they become relevant.</p></div>
+<div class="faction-card"><div class="fname">The Levellers <span class="status-tag">Not Active</span></div><p>An underground criminal gang from Nevirismuth — the group that abducted and raised Cheese n Wine. Their Inner Boundary branch is hidden in a cave in a volcanic valley, more pirate-flavored than their other operations. Not yet brought into the current story.</p></div>
+<div class="faction-card"><div class="fname">Blood Hunters <span class="status-tag">Held in Reserve</span></div><p>From an earlier campaign group's worldbuilding, not currently part of this story. A faction born from a century-long obsession with replicating sea witch magic, who developed blood magic (fueled by the user's own blood) to try to reach the sea witches themselves. First generations were brutal and selfish; over time that's all that remained. Kept in reserve as an easy faction to introduce later if wanted.</p></div>` },
+
+{ id:'timeline', num:'Chapter VII', title:'Master Timeline', type:'html', content:`<p><em>Living document — update this as sessions happen and as plans firm up. Inner boundary events on the left, wider world events on the right, connected to their point on the spine. Box size reflects how important the event is. Dashed "planned" boxes are placed at roughly the right point on the spine but don't have locked dates yet.</em></p>
+
+<h3>Time Dilation Reference</h3>
+<div class="tl-ref-table">
+  <div class="ref-row"><span class="ref-label">Current ratio (at "Now")</span><span>~1.4 IB : 1 WW (inner boundary still slightly faster)</span></div>
+  <div class="ref-row"><span class="ref-label">Decay rate</span><span>~1.9% per IB day (~12–13% per IB week), exponential</span></div>
+  <div class="ref-row"><span class="ref-label">The Flip (parity, 1:1)</span><span>~Day 18 IB-time from Now (~2.5 IB weeks) — expected around/after the Crow's Nest</span></div>
+  <div class="ref-row"><span class="ref-label">Extreme inversion (1 IB month ≈ 10 WW years)</span><span>~Day 275 IB-time from Now (~9 IB months)</span></div>
+  <div class="ref-row"><span class="ref-label">Mechanism (unconfirmed, DM theory)</span><span>Magic ran fast when concentrated at the start; as it's spread thinner across more people/time, the inner boundary's relative speed keeps decaying — exponentially, not linearly. Ancient-era ratios (Marilda's voyage) were far more extreme because the curve was steeper then; it's been flattening for centuries.</span></div>
+  <div class="ref-row"><span class="ref-label">Sea witch lifespan</span><span>Up to ~500 years — the oldest ones remember when this was much more extreme, and may be the only ones who can feel the flip coming</span></div>
+</div>
+<p><em>To reuse this model going forward: pick an elapsed IB-day count t since "Now," and ratio(t) ≈ 1.4 × e^(−0.019t). Recalibrate R0 and the flip target any time actual play reveals something that contradicts it — this is a working theory, not locked canon.</em></p>
+<p><strong>Legend:</strong> box color = category (World History / Backstory / Milestone / Session Event / Planned). Column = side of the boundary. Where it matters, a small note flags whether the detail itself is known to players yet — not just the event.</p>
+
+<div class="dual-timeline">
+  <div class="dt-legend"><span>Inner Boundary</span><span>Wider World</span></div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat history">World History</span><div class="tl-title">Sea Witches Discover Magic</div><div class="tl-date">Mar 3, Year 0 IBC</div><div class="tl-reveal">Not in the player bible</div><p>Time-keeping begins here. Communing with the ocean, sea witches become the first magic users in Aaarmundy.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat history">World History</span><div class="tl-title">Sea Witches Gain Power</div><div class="tl-date">Jun 12, Year 100 IBC</div><div class="tl-reveal">Not in the player bible</div><p>Magic use spreads and strengthens; sea witches become widely worshipped.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat history">World History</span><div class="tl-title">Teleportation Banned</div><div class="tl-date">Nov 8, Year 200 IBC</div><div class="tl-reveal">Not in the player bible</div><p>Sea witches now properly lead the inner boundary. They reach out to other regions — poor reception — and ban teleportation magic to protect the secret of the arcane energy source.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-time-note">⏱ In this era, dilation is at its most extreme — thousands of inner-boundary days can pass in a single wider-world day.</div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat milestone">Milestone</span><div class="tl-title">The Prophecy Captain's Voyage Begins</div><div class="tl-date">c. Apr 15, Year 215 IBC</div><div class="tl-reveal">Not in the player bible</div><p>The original captain (now trapped, needs 8 people — see Endgame chapter) sets out to escape the inner boundary and understand the wider world. Gathers a crew. Marilda — pulled by sea witch whispers promising she'd see Billy again — joins around this time.</p></div></div>
+    <div></div><div class="tl-right"><div class="tl-box"><span class="tl-cat backstory">Backstory</span><div class="tl-title">Billy &amp; Marilda</div><div class="tl-reveal known">Known to players</div><p>Grew up in Amuli, Safire. Met young, married. (Player-known.)</p></div></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat milestone">Milestone</span><div class="tl-title">Marilda Finds the First Artifact</div><div class="tl-date">c. Jul 22, Year 217 IBC</div><div class="tl-reveal known">Fact known — captain's role isn't</div><p>The amulet. Just after this, the captain — having gotten what he needed — abandons the crew. Marilda becomes a legendary pirate in her own right. (Players know she found the artifact and became legendary — not the captain's role in it.)</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box"><span class="tl-cat milestone">Milestone</span><div class="tl-title">Marilda Captured by Aric</div><div class="tl-date">c. Feb 9, Year 222 IBC</div><div class="tl-reveal">Not revealed — players only know "taken by someone"</div><p>Aric — then a low-level navy warden — captures her, forces marriage, uses her power and body. Later uses the amulet to seize control of the Navy.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat milestone">Milestone</span><div class="tl-title">Marilda Escapes</div><div class="tl-date">Oct 3, Year 251 IBC</div><div class="tl-reveal known">Known to players</div><p>~29 IB years compressed into 1 WW day for Billy. She returns home, pregnant, tells Billy the child is his.</p></div></div>
+    <div></div><div class="tl-right"><div class="tl-box"><span class="tl-cat backstory">Backstory</span><div class="tl-title">Marilda Returns</div><div class="tl-reveal known">Known to players</div><p>Only a day passed for Billy. They raise Tide together for 6 years.</p></div></div>
+  </div>
+
+  <div class="tl-time-note">⏱ Decades of inner-boundary time just passed in a single wider-world day for Billy — dilation is still near its ancient extreme here.</div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat history">World History</span><div class="tl-title">Quiet Years</div><div class="tl-date">Oct 3, Year 251 – May 18, Year 261 IBC</div><div class="tl-reveal">Not in the player bible</div><p>~10 IB years pass at a decaying (but still elevated) ambient rate while Marilda and Tide are safely in the wider world, not touching the boundary.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box"><span class="tl-cat milestone">Milestone</span><div class="tl-title">Tide &amp; Marilda Taken</div><div class="tl-date">May 18, Year 261 IBC</div><div class="tl-reveal known">Tide's capture is known; Marilda's link isn't confirmed</div><p>Aric recaptures both. Tide (age 6) raised as a Navy soldier, given the name Allistar. Marilda kept chained — grows more powerful the longer she stays near the arcane source, so Aric keeps her that way.</p></div></div>
+    <div></div><div class="tl-right"><div class="tl-box"><span class="tl-cat backstory">Backstory</span><div class="tl-title">Tide &amp; Marilda Taken</div><div class="tl-reveal known">Known to players</div><p>Taken from Billy ~6 WW years after Marilda's return. Tide was six.</p></div></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat backstory">Backstory</span><div class="tl-title">Tide Escapes to Snarlywinkle</div><div class="tl-date">Dec 1, Year 294 IBC</div><div class="tl-reveal known">Known to players</div><p>~33 IB years raised as a Navy soldier before he escapes and joins Snarlywinkle's crew — not out of loyalty, but as his best shot at gaining the power/information to help his mother. Spends ~4 more years with Snarlywinkle before Billy finds him.</p></div></div>
+    <div></div><div class="tl-right"><div class="tl-box size-minor"><span class="tl-cat backstory">Backstory</span><div class="tl-title">Orin's Backstory</div><div class="tl-reveal known">Known to players</div><p>The library discovery, a few months before Billy's invitation.</p></div></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"></div><div></div>
+    <div class="tl-right"><div class="tl-box size-minor"><span class="tl-cat backstory">Backstory</span><div class="tl-title">The Invitation</div><div class="tl-reveal known">Known to players</div><p>Billy finds the old invitation, then a second unsigned one. Sets sail. (Orchestrated by "Mr. Colors" — not yet explored in-fiction.)</p></div></div>
+  </div>
+
+  <div class="tl-time-note">⏱ ~37 inner-boundary years pass here in only ~2–3 wider-world months — this is why Tide's aged from 6 to his 40s by the time Billy finds him.</div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat milestone">Milestone</span><div class="tl-title">Boarding the Ship</div><div class="tl-date">Aug 27, Year 298 IBC — Day 1</div><div class="tl-reveal known">Known to players</div><p>~37 IB years after the recapture. Billy meets Biggie and Mercy; Orin recruited soon after. Everything since has taken 6 IB days total.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat session">Session Event</span><div class="tl-title">General Guy</div><div class="tl-date">Aug 27, Year 298 IBC — Day 1</div><p>First real fight. Jade chain blades taken.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat session">Session Event</span><div class="tl-title">Meeting Jacklyn</div><div class="tl-date">Aug 27, Year 298 IBC — Day 1</div><p></p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat session">Session Event</span><div class="tl-title">the Bells End</div><div class="tl-date">Aug 27, Year 298 IBC — Day 1</div><p>Fruit Man, bartender deal for Allistar Ratsilla.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box"><span class="tl-cat session">Session Event</span><div class="tl-title">The Sea Witch Freed</div><div class="tl-date">Aug 28, Year 298 IBC — Day 2</div><p>Blessing given; crew agrees to help undo the pirates' prophecy. Turns them quietly against the prophecy and the pirates chasing it.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box"><span class="tl-cat session">Session Event</span><div class="tl-title">Crabshack Isle</div><div class="tl-date">Aug 28–30, Year 298 IBC — Day 2–4</div><p>Meets Tide (gives Billy the shield), learns of Snarlywinkle's siege, meets Shipoo at the lighthouse. Tide's now been with Snarlywinkle ~4 IB years. Killed and impersonated the town mayor for information, beating Snarlywinkle to his own siege.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-major"><span class="tl-cat milestone">Milestone — Kids Taken</span><div class="tl-title">Southern Navy Stronghold</div><div class="tl-date">Aug 31, Year 298 IBC — Day 5</div><p>Soul Room found and woken (mass casualty stampede). Amulet taken — found glowing near the Soul Room. Tide taken again; the Warden wipes memories of the kids from everyone but Orin and Cheese/Wine; Billy keeps his memory of Tide.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box size-minor"><span class="tl-cat session">Session Event</span><div class="tl-title">Now — Chapter 1 Epilogue</div><div class="tl-date">Sep 1, Year 298 IBC — Day 6, present day</div><p>Journey toward the crow's nest begins.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-time-note">⏱ Right now, inner-boundary time is running only ~1.4x faster than the wider world — close to the closest these two clocks have ever run.</div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box planned size-minor"><span class="tl-cat future">Planned</span><div class="tl-title">Snarlywinkle Confrontation</div><p>Unplanned encounter crossing his ship on the way out of the stronghold — he doesn't yet know about the heist or the mayor.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box planned"><span class="tl-cat future">Planned</span><div class="tl-title">No Man's Land</div><p>Optional stop en route to the Crow's Nest — a premonition of something each party member desires draws them toward the island. Siren figure "Mother," her illusioned town, the bullywug hats, and the tower-of-charmed-people reveal — see <span class="xref" onclick="return jumpTo('boundary-nomansland','No Man\'s Land')">the No Man's Land</span> reference page. Party's choice whether to investigate.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box planned"><span class="tl-cat future">Planned</span><div class="tl-title">The Crow's Nest / Coronation</div><p>Party heads here believing the Coronation — and their best shot at the kids — is here. King's identity revealed at the Coronation.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"></div><div></div>
+    <div class="tl-right"><div class="tl-box planned size-minor"><span class="tl-cat future">Planned</span><div class="tl-title">(space for wider-world beats as they come up)</div><p></p></div></div>
+  </div>
+
+  <div class="tl-row">
+    <div class="tl-left"><div class="tl-box planned size-major"><span class="tl-cat future">Planned</span><div class="tl-title">Campaign Endgame</div><p>Find and stop the trapped prophecy captain's ritual (needs 8 people). Howard, Jacklyn, Aric, and the Coronation all expected to converge here — exact shape still forming.</p></div></div>
+    <div></div><div class="tl-right"></div>
+  </div>
+
+  <div class="tl-flip"><div class="tl-flip-marker">⟡ THE FLIP — parity crossover, expected around/after the Crow's Nest ⟡</div></div>
+
+  <div class="tl-time-note">⏱ Past this point, inner-boundary time starts running slower than the wider world for the first time ever — and keeps falling further behind the longer it goes on.</div>
+
+</div>
+` },
+
+    { id:'calendar', num:'Chapter VIII', title:'Calendar', type:'html', content:`<p>Year 298 IBC. Nothing scheduled yet beyond what's already happened — write in dates here as you plan sessions, so the players can see what's coming up in-game.</p>
+
+<div class="calendar-tabs">
+  <button class="calendar-tab active" onclick="showCalMonth('aug', this)">August</button>
+  <button class="calendar-tab" onclick="showCalMonth('sep', this)">September</button>
+</div>
+
+<div class="calendar-month active" id="cal-aug">
+  <div class="calendar-title">August, Year 298 IBC</div>
+  <div class="calendar-grid">
+    <div class="calendar-weekday">Sun</div><div class="calendar-weekday">Mon</div><div class="calendar-weekday">Tue</div><div class="calendar-weekday">Wed</div><div class="calendar-weekday">Thu</div><div class="calendar-weekday">Fri</div><div class="calendar-weekday">Sat</div>
+    <div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div>
+    <div class="calendar-day"><div class="day-num">1</div></div>
+    <div class="calendar-day"><div class="day-num">2</div></div><div class="calendar-day"><div class="day-num">3</div></div><div class="calendar-day"><div class="day-num">4</div></div><div class="calendar-day"><div class="day-num">5</div></div><div class="calendar-day"><div class="day-num">6</div></div><div class="calendar-day"><div class="day-num">7</div></div><div class="calendar-day"><div class="day-num">8</div></div>
+    <div class="calendar-day"><div class="day-num">9</div></div><div class="calendar-day"><div class="day-num">10</div></div><div class="calendar-day"><div class="day-num">11</div></div><div class="calendar-day"><div class="day-num">12</div></div><div class="calendar-day"><div class="day-num">13</div></div><div class="calendar-day"><div class="day-num">14</div></div><div class="calendar-day"><div class="day-num">15</div></div>
+    <div class="calendar-day"><div class="day-num">16</div></div><div class="calendar-day"><div class="day-num">17</div></div><div class="calendar-day"><div class="day-num">18</div></div><div class="calendar-day"><div class="day-num">19</div></div><div class="calendar-day"><div class="day-num">20</div></div><div class="calendar-day"><div class="day-num">21</div></div><div class="calendar-day"><div class="day-num">22</div></div>
+    <div class="calendar-day"><div class="day-num">23</div></div><div class="calendar-day"><div class="day-num">24</div></div><div class="calendar-day"><div class="day-num">25</div></div><div class="calendar-day"><div class="day-num">26</div></div><div class="calendar-day"><div class="day-num">27</div></div><div class="calendar-day"><div class="day-num">28</div></div><div class="calendar-day"><div class="day-num">29</div></div>
+    <div class="calendar-day"><div class="day-num">30</div></div><div class="calendar-day has-note"><div class="day-num">31</div><div class="day-note">The Heist</div></div>
+  </div>
+</div>
+
+<div class="calendar-month" id="cal-sep">
+  <div class="calendar-title">September, Year 298 IBC</div>
+  <div class="calendar-grid">
+    <div class="calendar-weekday">Sun</div><div class="calendar-weekday">Mon</div><div class="calendar-weekday">Tue</div><div class="calendar-weekday">Wed</div><div class="calendar-weekday">Thu</div><div class="calendar-weekday">Fri</div><div class="calendar-weekday">Sat</div>
+    <div class="calendar-day empty"></div><div class="calendar-day empty"></div>
+    <div class="calendar-day has-note"><div class="day-num">1</div><div class="day-note">Day after the heist — next session</div></div>
+    <div class="calendar-day"><div class="day-num">2</div></div><div class="calendar-day"><div class="day-num">3</div></div><div class="calendar-day"><div class="day-num">4</div></div><div class="calendar-day"><div class="day-num">5</div></div>
+    <div class="calendar-day"><div class="day-num">6</div></div><div class="calendar-day"><div class="day-num">7</div></div><div class="calendar-day"><div class="day-num">8</div></div><div class="calendar-day"><div class="day-num">9</div></div><div class="calendar-day"><div class="day-num">10</div></div><div class="calendar-day"><div class="day-num">11</div></div><div class="calendar-day"><div class="day-num">12</div></div>
+    <div class="calendar-day"><div class="day-num">13</div></div><div class="calendar-day"><div class="day-num">14</div></div><div class="calendar-day"><div class="day-num">15</div></div><div class="calendar-day"><div class="day-num">16</div></div><div class="calendar-day"><div class="day-num">17</div></div><div class="calendar-day"><div class="day-num">18</div></div><div class="calendar-day"><div class="day-num">19</div></div>
+    <div class="calendar-day"><div class="day-num">20</div></div><div class="calendar-day"><div class="day-num">21</div></div><div class="calendar-day"><div class="day-num">22</div></div><div class="calendar-day"><div class="day-num">23</div></div><div class="calendar-day"><div class="day-num">24</div></div><div class="calendar-day"><div class="day-num">25</div></div><div class="calendar-day"><div class="day-num">26</div></div>
+    <div class="calendar-day"><div class="day-num">27</div></div><div class="calendar-day"><div class="day-num">28</div></div><div class="calendar-day"><div class="day-num">29</div></div><div class="calendar-day"><div class="day-num">30</div></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div><div class="calendar-day empty"></div>
+  </div>
+</div>` },
+
+    { id:'artifacts', num:'Chapter IX', title:'Artifacts', type:'html', content:`<p>Tap one for the full rundown.</p>
+<div class="hub-grid">
+  <a href="#" class="hub-card" onclick="showView('artifact-amulet');return false;"><div class="hc-name">The Amulet</div></a>
+  <a href="#" class="hub-card" onclick="showView('artifact-chainblades');return false;"><div class="hc-name">Jade Chain Blades</div><div class="hc-sub">Orin</div></a>
+  <a href="#" class="hub-card" onclick="showView('artifact-shield');return false;"><div class="hc-name">Sentient Shield</div><div class="hc-sub">Billy — "Shield of Promise"</div></a>
+  <a href="#" class="hub-card" onclick="showView('artifact-blockers');return false;"><div class="hc-name">Arcane Energy Blockers</div></a>
+</div>` },
+
+    { id:'artifact-amulet', num:'Reference', title:'The Amulet', sub:true, type:'html', content:`<div class="info-block"><ul><li>A purple crystal amulet, shaped like a small coffin, with an inscription running around its edge</li><li>Can remove a soul from a body</li><li>Can preserve the physical body while the soul is trapped elsewhere (very difficult for the wearer)</li><li>Currently: lets the wearer summon undead creatures</li><li>Found glowing near the Soul Room during the stronghold heist — this is the amulet Marilda originally found; Aric used it to rise to power</li></ul></div>` },
+
+    { id:'artifact-chainblades', num:'Reference', title:'Jade Chain Blades', sub:true, type:'html', content:`<div class="info-block"><p>Taken from General Gai after his defeat in the Session 1 boat battle. Evolving weapon that grows alongside the character; can trap the souls of slain creatures as Jade Stones. Full leveled progression lives in the Player Bible.</p></div>` },
+
+    { id:'artifact-shield', num:'Reference', title:'Sentient Shield ("Shield of Promise")', sub:true, type:'html', content:`<div class="info-block"><p>Given to Billy by Tide at Crabshack, who said it belonged to Marilda. Has its own personality and agency — makes and holds <strong>promises</strong> with roleplay and mechanical consequences. Not yet triggered. Full leveled progression lives in the Player Bible.</p></div>` },
+
+    { id:'artifact-blockers', num:'Reference', title:'Arcane Energy Blockers', sub:true, type:'html', content:`<div class="info-block"><p>An item you place on a magic item to block its arcane energy — suppresses whatever it does. Purchased from Major Plot Twist, a wizard in Crabshack's Arcane District.</p></div>` },
+
+    { id:'partygoals', num:'Chapter X', title:'Party Goals', type:'html', content:`<div class="info-block"><div class="info-name">Reach the Crow's Nest</div><p>Before the Coronation happens.</p></div>
+<div class="info-block"><div class="info-name">Rescue the Kids &amp; Wine</div><p>Taken by Aric during the stronghold heist.</p></div>
+<div class="info-block"><div class="info-name">Figure Out Aric's Motive</div><p>He wants Tide — the party doesn't fully know why yet.</p></div>
+<div class="info-block"><div class="info-name">Help the Sea Witches</div><p>Undo the pirates' prophecy.</p></div>
+<div class="info-block"><div class="info-name">Endgame</div><p>Stop the trapped prophecy captain's ritual — see <span class="xref" onclick="return jumpTo('story','act 1 — in progress')">Story</span>.</p></div>` },
+
+    { id:'leads', num:'Chapter XI', title:'Leads', type:'html', content:`<p><em>Mirrors the Player Bible's Leads section — what the party is actively wondering about, from their point of view. Keep both in sync.</em></p>
+<div class="info-block"><div class="info-name">The Pirates' Prophecy</div><p>Freed a captured sea witch, who blessed the crew and asked for help undoing the prophecy. They agreed — turning against the pirates chasing it.</p></div>
+<div class="info-block"><div class="info-name">The Coronation</div><p>The chef mentioned it's happening at the crow's nest — the inner boundary's biggest city.</p></div>
+<div class="info-block"><div class="info-name">Marilda's Captor</div><p>Glimpsed chained up during the stronghold heist. Might be Aric — the crew isn't sure.</p></div>
+<div class="info-block"><div class="info-name">What Aric Took</div><p>He's taken something from the party — they're still figuring out exactly what he wants.</p></div>
+<div class="info-block"><div class="info-name">Tide's History at the Stronghold</div><p>He clearly knows people there. A maid told him "Aric will claim his prize" — Tide's only response was "I'm no one's prize."</p></div>
+<div class="info-block"><div class="info-name">Cheese n Wine's Origin</div><p>Woke up lost on a boat and met the other two. How they actually got there is still unclear, even to them.</p></div>
+<div class="info-block"><div class="info-name">The Soul Room</div><p>What it actually was, why those bodies were standing there, and whether anyone was still alive inside when the crew fled.</p></div>
+<div class="info-block"><div class="info-name">A Crew Looking for Them</div><p>Word going around says a new pirate crew out there is looking for a group of "pirate dads" traveling with their kids.</p></div>
+<div class="info-block"><div class="info-name">What Jacklyn Actually Did</div><p>Nobody's fully sure what happened when Jacklyn "babysat" the kids under the water — just that they came back different.</p></div>
+<div class="info-block"><div class="info-name">What Tide Isn't Saying</div><p>He clearly knows more about his and Marilda's history than he's shared. What exactly, and why he's holding it back, is still unclear.</p></div>
+<div class="info-block"><div class="info-name">"Sweetheart"</div><p>The crew heard Aric refer to Marilda as "sweetheart." Makes them wonder if — and why — the two of them might have once been together.</p></div>` },
+
+    { id:'c10', num:'Chapter XII', title:'Ship & Economy', type:'html', content:`<div class="info-block"><div class="info-name">The Big Daddy</div><p>The party's original ship, destroyed when a misfired cannon (fired by the party earlier) crashed it into the southern navy stronghold during their escape. The kids were no longer aboard at the time, but the ship itself was lost.</p></div>
+<div class="info-block"><div class="info-name">Current Ship</div><p>A replacement vessel taken during the escape — not yet named or detailed.</p></div>
+<div class="info-block"><div class="info-name">Party Finances</div><p>Currently penniless — lost their gold along with the Big Daddy.</p></div>
+<div class="info-block"><div class="info-name">Captain's Dream</div><p>Recurring magical dream — Heart of the Sea, a portal, a dagger that functions as a key — connected to returning to Howard.</p></div>
+<table><tr><th>Economy</th><th>Cost</th></tr>
+<tr><td>Crew pay</td><td>~5 gp/day</td></tr><tr><td>Standard weapons</td><td>~100 gp</td></tr>
+<tr><td>Special weapons</td><td>~500–1,000 gp</td></tr><tr><td>Magic weapons</td><td>~500–5,000 gp</td></tr>
+<tr><td>New ships</td><td>~50–20,000 gp</td></tr><tr><td>Repairs</td><td>~400–500+ gp</td></tr></table>` },
+
+    { id:'mysteries', num:'Chapter XIII', title:'Mysteries', type:'html', content:`<p>Everything below is DM knowledge the players do not currently have. Check before every session so nothing slips out early.</p>
+<div class="secret"><p><strong>Tide = Allistar.</strong> Aric named him Allistar; Billy and the party know him as Tide. Not yet connected by the players. This is intentional slow-burn foreshadowing — keep dropping the name.</p></div>
+<div class="secret"><p><strong>Aric's projection ability.</strong> His real body is in the capital. Every Warden encountered at every stronghold has been a projection. Not yet revealed.</p></div>
+<div class="secret"><p><strong>The trapped prophecy captain.</strong> The original captain who found the arcane energy source needs eight people to perform the ritual to escape — this is why he's stuck, and why he's been quietly pulling strings (including sending Marilda on her original voyage) ever since.</p></div>
+<div class="secret"><p><strong>The Howard conspiracy line.</strong> Aric referenced it aloud during the Warden fight; almost certainly missed by the table. Needs deliberate resurfacing.</p></div>
+<div class="secret"><p><strong>Biggie Wiggie</strong> is triple-agenting the Navy, the pirates, and the party. True alignment undecided — keep the party trusting him until the Crow's Nest reveal.</p></div>
+<div class="secret"><p><strong>Marilda's status</strong> with Aric — willing acceptance vs. pure coercion — not yet decided by the DM. Keep ambiguous until it matters.</p></div>
+<div class="secret"><p><strong>The purple glow</strong> shared by Billy, Tide, and Aric is unexplained even to the DM — a thread to define before it's paid off.</p></div>
+<div class="secret"><p><strong>Poo</strong> hasn't been met by the party yet — an 11-year-old, kidnapped by Snarlywinkle, escaped, now trained by Jacklyn as a "chosen one." Plan for a future introduction.</p></div>
+<div class="secret"><p><strong>The Crabshack mayor impersonation</strong> is an open thread — the party killed and impersonated the town mayor for information. Currently paused since they're away from Crabshack and penniless; could resurface if they return, or unravel when they next cross Snarlywinkle (who doesn't yet know about the heist or the impersonation).</p></div>
+<div class="secret"><p><strong>The fisherman's sister died</strong> during the heist, in front of him — he knows, and is likely heading toward a revenge arc. Good candidate for a recurring NPC.</p></div>` },
+
+    { id:'improv', num:'Chapter XIV', title:'Quick Reference & Improv Toolkit', type:'html', content:`<p><em>Things to throw in if the players go off course — reminders, NPC voices, fallback hooks.</em></p>
+<h3>Fallback hooks</h3><div class="info-block"><ul><li>The fisherman (sister died in the heist) — vengeance-driven, could resurface anywhere</li><li>Snarlywinkle's ship, on the way out of the stronghold — he's suspicious but doesn't yet know about the heist or the mayor impersonation</li><li>Judy following invisibly — can be used to feed the party info they "shouldn't" have yet</li></ul></div>
+<h3>NPC voice/quirk reminders</h3><div class="info-block"><ul><li>Jeoph McGullywuff — tries to sound tough ("Bloodboiler"), constantly breaks into a sappy, anxious teenager</li><li>Sloth (Crabshack tavern bartender) — comically slow-talking, slow-moving</li><li>Jacklyn — insecure, self-conscious about her ex, oddly sweet</li></ul></div>
+<h3>Standing reminders</h3><div class="info-block"><ul><li>Aric wants Tide, motive still secret</li><li>Biggie Wiggie's true loyalty is undecided — don't tip it early</li><li>Poo hasn't been introduced yet — hold for the right moment</li><li>Teleportation magic was wiped out by the sea witches — Biggie can cast Misty Step, so NPCs may react oddly/suspiciously if they see it used</li></ul></div>` },
+
+    { id:'inbox', num:'Chapter XV', title:'Idea Inbox (Unused Ideas)', type:'html', content:`<p><em>Passing thoughts and campaign ideas not yet built into the story — a parking lot, not a commitment. Move things out once they're used, or delete if you decide against them.</em></p>
+<div class="info-block"><ul>
+<li>Forced scary drug deal in the Crow's Nest slums — turns out to be a legit deal with a nice guy</li>
+<li>A guild who collects dangerous artifacts and locks them away</li>
+<li>Flashback scene showing whatever cover story Marilda told Billy about her one night away</li>
+</ul></div>` },
+
+    { id:'checklist', num:'Chapter XVI', title:'Session Prep Checklist', type:'checklist', items:[
+      { text:"Resurface the Allistar / Howard-conspiracy line", checked:false },
+      { text:"Decide Snarlywinkle's ship encounter on the way out of the stronghold", checked:false },
+      { text:"Lock coronation logistics — city, stakes, timing", checked:false },
+      { text:"Decide if the Soul Room connects to Biggie Wiggie", checked:false },
+      { text:"Talk to Cheese n Wine's player about the 'woke up lost on a boat' origin", checked:false },
+      { text:"Confirm whether the Sentient Shield's promise mechanic has ever triggered", checked:false },
+      { text:"Decide when/how to introduce Poo", checked:false },
+      { text:"Decide fate of the mayor impersonation thread — resurface or let it fade", checked:false },
+      { text:"Prep the Crow's Nest arrival — layout, guards, how the King is first seen", checked:false },
+      { text:"Decide how/when the Bullywugs become relevant", checked:false },
+      { text:"Write the Chapter 1 world-state summary once the Crow's Nest is reached", checked:false },
+      { text:"Update the Master Timeline and Player Bible after this session", checked:false }
+    ]},
+
+    { id:'log', num:'Chapter XVII', title:'Session Log', type:'log', entries:[
+      { date:'Sessions so far (summary)', text:`Party defeated General Gai in a boat battle, taking his Jade Chain Blades (now Orin's). Met Jacklyn briefly; party believes they can call on her for help but have only tested this once. Visited Bells End (Bing &amp; Bong, the barkeep's Allistar Ratsilla bounty). Arrived at Crabshack, met Tide for the first time. Snarlywinkle asked the party to help plan a siege on the amulet — instead they sabotaged his reputation (fake wall postings), killed and impersonated the town mayor for information, recruited Froth (ex-prisoner) and Chef Nathan, met Sloth the bartender, robbed several houses (Biggie), bought arcane energy blockers from Major Plot Twist in the Arcane District, and met Shipoo in the lighthouse. Promised the fisherman they'd save his sister.<br><br>Snuck onto a navy ship, infiltrated the warehouse, killed a Goliath, discovered the Soul Room, solved an arcane security puzzle, saw Tide glow purple. Raided the medbay for the Warden's medicine. Confronted the Warden — fight went as planned. Aric wiped party memories of Orin's kids (except Orin and Cheese/Wine); Billy kept his memory of Tide. Aric took Marilda's chained form as leverage, then took Tide and Wine at the end of the fight.<br><br>Escaping, the party checked the Soul Room for the kids (not there) and accidentally triggered a mass-casualty stampede among the waking soulless bodies. Fled the Navy, left survivors behind. A misfired cannon (from earlier) crashed their ship, the Big Daddy, into the stronghold — kids weren't aboard, but the ship and their gold were lost. Escaped on a different boat. Revealed: Judy had been invisible and following them the whole time — possibly why Aric never took her (see invisibility). The fisherman's sister died during the heist, in front of him.<br><br>Current status: penniless, down a ship, heading toward a probable encounter with Snarlywinkle on the way out, then on to the Crow's Nest.` }
+    ] },
+
+    { id:'session-plan', num:'Session Prep', title:'Session Plan', sessionPlan:true, type:'html', content:`<p style="font-size:13px;color:#6b5a3a;font-style:italic;margin:0 0 10px;">Tuesday Session — party on the boat, heading toward the Crow's Nest. Chronological, scene by scene. Wipe and rebuild this page fresh each time a new session is prepped. Use the "NPCs" button (top right, follows you as you scroll) to jump to anyone out of order.</p>
+
+<div class="beat-box" style="border-color:#7a1414;"><span class="bb-label">🔒 Session Tools — Player Bible Secret Knowledge Passwords (DM eyes only)</span><ul>
+  <li>Billy: <strong>bigtrout</strong></li>
+  <li>Orin: <strong>persephoneisbae</strong></li>
+  <li>Cheese n Wine: <strong>brieandmerlot</strong></li>
+  <li>Case-insensitive on the Player Bible unlock fields; re-locks on every page refresh</li>
+</ul></div>
+
+<div class="scene-block">
+  <div class="scene-title">Scene 1 — On the Boat</div>
+  <div class="setup-box"><span class="sb-label">Setting the scene</span>[Add your scene-setting cue here]</div>
+  <div class="beat-box"><span class="bb-label">Situation</span><ul>
+    <li>Party crowded onto the new boat</li>
+    <li><span class="xref" onclick="return toggleCard('sp-jeoph')">Jeoph</span> driving</li>
+    <li><span class="xref" onclick="return toggleCard('sp-mercy')">Mercy</span> and the chefs (<span class="xref" onclick="return toggleCard('sp-chefs')">Jezebel &amp; Saquiphony</span>) helping with the sails</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-mercy')">Mercy<span class="chip-sub">cleric, party anchor</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-jeoph')">Jeoph<span class="chip-sub">the party's captain</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-shipoo')">Shipoo<span class="chip-sub">soul in a body</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-jacklyn')">Jacklyn<span class="chip-sub">mermaid</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-judy')">Judy<span class="chip-sub">invisible, following</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-steven')">Steven<span class="chip-sub">Soul Room survivor — new</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-chefs')">Jezebel &amp; Saquiphony<span class="chip-sub">ex-Crow's Nest chefs — new</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-mercy">
+    <div class="card-name">Mercy Murdersome</div>
+    <div class="fact"><span class="fact-label">New thread</span>Alt personality — only when Alex plays her. Wacky/chaotic. Mercy doesn't know it exists. No trigger — keep random. Possible romance seed: Cheese n Wine.</div>
+    <h4>Quick lines</h4><ul><li>Village army medic</li><li>Banished — "war crime" of mercy</li><li>Pirates = last shot at survival</li></ul>
+    <h4>If pressed</h4><ul><li>Wants her name cleared</li><li>Judges "civilised" folk vs. pirate-recruit villages</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"You lot call it soft. Back home they called it treason."</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div>
+  </div>
+
+  <div class="npc-card" id="sp-jeoph">
+    <div class="card-name">Jeoph McGullywuff</div>
+    <div class="fact"><span class="fact-label">Standing fact</span>Holds the prophecy as captain. Only transfers via mutiny or killing holder — not automatic.</div>
+    <h4>Beats</h4><ul><li>Homesick, misses parents</li><li>Guilt re: crashed ship (not his fault)</li><li>Trying to seem respectable, wants to go home</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"One more port... I just really want to see my mum."</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div>
+  </div>
+
+  <div class="npc-card" id="sp-shipoo">
+    <div class="card-name">Shipoo <span class="tag">also in Scene 2</span></div>
+    <h4>Remember</h4><ul><li>"She"/tutu, but male, "he" — running bit</li><li>Husband Oogey, child Poo (also male, also fem-presenting)</li><li>Snarlywinkle kidnapped Shipoo+Poo → forced labor → Aric killed Shipoo, soul trapped in lighthouse → Poo later left too</li></ul>
+    <h4>This scene</h4><ul><li>Overjoyed, free, back in a body</li><li>Wants: find Oogey + Poo. No leads.</li><li>Asks party questions more than answers</li></ul>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond · reappears Scene 2 for her reveal</div>
+  </div>
+
+  <div class="npc-card" id="sp-jacklyn">
+    <div class="card-name">Jacklyn McKacklyn</div>
+    <div class="fact"><span class="fact-label">Today</span>Stood up by Orin (date → heist, he forgot). Upset. Brings it up herself.</div>
+    <h4>If asked</h4><ul><li>Older than the planet</li><li>Ex sea witches — too controlling (banned teleport)</li><li>Had magic before sea witches did</li><li>Howard: confirms met him, no more</li><li>Loves talking Davin (ex)</li></ul>
+    <h4>Davin, short version</h4><ul><li>Last sea dragons, freed by Howard w/ her</li><li>Centuries together</li><li>He: magic users unworthy, death the answer</li><li>Split: she says use magic freely for good</li></ul>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div>
+  </div>
+
+  <div class="npc-card" id="sp-judy">
+    <div class="card-name">Judy</div>
+    <div class="fact"><span class="fact-label">Today</span>Invisible the whole time — saw everything, incl. memory wipe. Still remembers Simon, Ruby, Persephone being taken (only her + Orin do). Raw grief. Brings it up herself.</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div>
+  </div>
+
+  <div class="npc-card" id="sp-steven">
+    <div class="card-name">Steven <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Soul Room survivor, blank slate. Trauma doesn't define him. Purpose: resurface Howard thread.</div>
+    <h4>Beat</h4><ul><li>Overheard guards/Warden say "Howard" — scared tone</li><li>Doesn't know who Howard is, just that it's bad</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"Made my skin crawl, and I don't even know who that is."</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-chefs">
+    <div class="card-name">Jezebel &amp; Saquiphony <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Ex Crow's Nest chefs, hated it, swore never back. (Irony: that's where party's headed.)</div>
+    <h4>Play as</h4><ul><li>Double act, constantly clash</li><li>Same instinct at once — bump heads/hands, talk over each other</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Exchange</span>"Docked pay for breathing too loud near the ovens." / "Docked pay? Scrubbing pots 'til your hands bled." — then bicker over who told it better.</div>
+    <div class="npc-ddb-note">Crow's Nest lines TBD — flesh out once location's planned</div>
+  </div>
+</div>
+
+<div class="scene-block">
+  <div class="scene-title">Scene 2 — Chase &amp; Boarding</div>
+  <div class="setup-box"><span class="sb-label">Setting the scene</span>Brief false calm (~10 sec in-fiction) right after the boat roleplay — party thinks they've gotten away. Then sails appear on the horizon.</div>
+
+  <div class="beat-box"><span class="bb-label">The reveal</span><ul>
+    <li>Sails spotted first — unclear who, at a distance</li>
+    <li>As it closes, party recognizes the guard from the <span class="xref" onclick="return jumpTo('npc-biggie','Biggie Wiggie')">Biggie</span> chase among the crew</li>
+    <li>A few more ships come into view — the whole pack starts closing distance</li>
+    <li>Turn it over to the players here: "What do you want to do?"</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Pacing target</span><ul><li>~30 min: false calm → sails spotted → recognition → chase → Willowheart boards</li></ul></div>
+
+  <div class="beat-box"><span class="bb-label">The pursuit</span><ul>
+    <li>Not one pursuer — chaotic mixed pursuit</li>
+    <li>Uniform navy fleet: 3-4 ships total, including the guard's — all identical to the party's own ship (it <em>is</em> a navy ship), all closing at the same speed</li>
+    <li>No formation — just uniformly closing in from behind, chaotic scene, no lead ship pulling ahead</li>
+    <li>Run it puzzly/inventive, not a fixed mechanic — let players propose actions (drop cargo, cut a pursuer's rigging, magic to becalm sails/conjure fog, fire on pursuers)</li>
+    <li>Assign difficulty/consequence per action rather than one universal check</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Terrain — cluster of rocks</span><ul>
+    <li>A cluster of rocks lies in the chase path — a possible escape route, but deliberately left open</li>
+    <li>Don't decide for them whether it's used — purely a player choice at the table</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">What's aboard — improvisable resources</span><ul>
+    <li>Cannonballs and gunpowder — well stocked for the ship's own cannons</li>
+    <li>Spare sailcloth and rope — for jury-rigging a torn sail or lashing something together fast</li>
+    <li>A few barrels of oil/lamp oil — throwable or lightable as a fire hazard behind them</li>
+    <li>Empty crates and spare cargo — can be jettisoned to lighten the ship for speed</li>
+    <li>Grappling hooks — for snagging a pursuer, or stopping one from snagging them</li>
+    <li>Normal ship's crew — can be ordered to jobs like reefing sails or manning a second cannon</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Basic chase &amp; ship combat rules</span><ul>
+    <li>Each player picks a <strong>crew role</strong> for the chase (see roles below) — full breakdown also in the Player Bible's new Ship Combat Roles page</li>
+    <li>On their turn, each player gets their normal action, <em>plus</em> one ship action tied to their role</li>
+    <li><strong>Helmsman</strong> — steers the ship; handles checks to turn, dodge, or outmaneuver a pursuer</li>
+    <li><strong>Gunner</strong> — aims and fires the cannons at a pursuing ship</li>
+    <li><strong>Quartermaster / First Mate</strong> — assists any other role, granting a bonus to that role's check</li>
+    <li><strong>Lookout</strong> — spots hazards or threats early (e.g. the rock cluster, a pursuer closing faster than expected)</li>
+    <li><strong>Boarding / Repairs</strong> — deals with damage control, or fights off anyone trying to board</li>
+    <li>Keep it lightweight — assign a DC per proposed action rather than running a rigid turn structure</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Ship vs. ship — Willowheart attacks on sight</span><ul>
+    <li><span class="xref" onclick="return toggleCard('sp-willowheart')">Willowheart</span>'s ship catches up, sees they're on a navy vessel, reads them as hostile navy — no hesitation, no hail first</li>
+    <li>Opens as a ship vs. ship fight using the crew-role chase/combat system above</li>
+    <li>Once ships are close, she boards</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Boarding &amp; melee</span><ul>
+    <li>Willowheart + 2 pirates board (chip below) — sized for a ~20 min fight total, not a bigger mob</li>
+    <li>Stat blocks: Will's own, built in D&amp;D Beyond VTT — Willowheart as a custom monster/NPC, 2 pirates as standard stat blocks</li>
+    <li>Her line on boarding: <em>"I don't know what you lot think you're doing, but the captain's not gonna like this."</em></li>
+    <li>Straight into melee from there</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Stand-down — Willowheart submits</span><ul>
+    <li>Mid-fight, <span class="xref" onclick="return toggleCard('sp-shipoo-2')">Shipoo</span> reveals herself (was hiding to avoid trouble with <span class="xref" onclick="return jumpTo('npc-snarlywinkle','Captain Snarlywinkle')">Snarlywinkle</span>)</li>
+    <li>Appeals on shared goal of finding <span class="xref" onclick="return jumpTo('npc-pooguey','Pooguey')">Poo</span> — tips the fight</li>
+    <li>Willowheart submits (rather than a mutual stand-down) — fight ends</li>
+    <li>Note: Will wants Willowheart as a potential recurring NPC who could follow the party going forward</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Interrogation &amp; negotiation — after she submits</span><ul>
+    <li>Party interrogates her re: ditching siege prep, now that the fighting's over</li>
+    <li>Her default posture: guarded and non-committal — testing the party's intentions rather than opening up right away</li>
+    <li>She only turns/reveals anything meaningful if the party explicitly offers to help her cause (the mutiny against <span class="xref" onclick="return jumpTo('npc-snarlywinkle','Captain Snarlywinkle')">Snarlywinkle</span>, or finding <span class="xref" onclick="return jumpTo('npc-pooguey','Pooguey')">Poo</span>)</li>
+    <li>If they don't make that offer clearly, she stays cagey — a good candidate to resurface later rather than resolve fully today</li>
+    <li>Branches from there: help her mutiny against Snarlywinkle / steer her toward just finding Poo instead / other outcomes depending on party approach — read the table</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-willowheart')">Willowheart<span class="chip-sub">druid first mate — new</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-shipoo-2')">Shipoo<span class="chip-sub">reveal, this scene</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-willowheart">
+    <div class="card-name">Willowheart <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>15yo druid, first mate under Snarlywinkle. Friend of Poo (also a first mate). Loves piracy's freedom but wants to legitimize it — lift the ban properly rather than stay outlaw.</div>
+    <h4>Today</h4><ul><li>Boards the party's ship after catching up — interrogates them re: ditching siege prep</li><li>Interrogation escalates to a fight</li><li>Stands down only once Shipoo reveals herself mid-fight</li></ul>
+    <h4>Wants</h4><ul><li>Weighing a mutiny against Snarlywinkle — turn Crabshack into a genuinely pirate-friendly community</li><li>Warm toward the party if they read as strong/trustworthy — may offer to team up</li><li>Could go three ways post-fight: ally, mole reporting back to Snarlywinkle, or stays hostile — read the table</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"I need to find a way to lift the ban on piracy."</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-shipoo-2">
+    <div class="card-name">Shipoo <span class="tag">also in Scene 1</span></div>
+    <h4>This scene</h4><ul><li>Had been hiding to avoid trouble with Snarlywinkle</li><li>Reveals herself mid-fight to stop Willowheart</li><li>Appeals on shared goal of finding Poo</li></ul>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond · full card in Scene 1</div>
+  </div>
+
+  <div class="setup-box" style="margin-top:12px;"><span class="sb-label">Visual aid — D&amp;D Beyond Maps</span>Upload a top-down ship deck image as one map (boarding/on-ship positioning), plus a simple zoomed-out ocean map with two ship tokens (red = hostile, green = party) for chase positioning. Flip between the two as needed.</div>
+</div>
+
+<div class="scene-block">
+  <div class="scene-title">Scene 3 — Resupply &amp; the Journey to the Crow's Nest</div>
+  <div class="setup-box"><span class="sb-label">Setting the scene</span>Mostly roleplay/logistics, low on mechanics. Party works out supplies and plans the route with the crew — likely heavy chat with <span class="xref" onclick="return toggleCard('sp-chefs')">Jezebel &amp; Saquiphony</span>, and <span class="xref" onclick="return toggleCard('sp-willowheart')">Willowheart</span> if she's tagging along (may be roped into grabbing food from her old ship).</div>
+
+  <div class="beat-box"><span class="bb-label">The journey</span><ul>
+    <li>Roughly a 4-5 day sail to the <span class="xref" onclick="return jumpTo('boundary-crowsnest','the crow\'s nest')">Crow's Nest</span></li>
+    <li>On the way, the party passes <span class="xref" onclick="return jumpTo('boundary-nomansland','No Man\'s Land')">No Man's Land</span> — a premonition of something each of them desires draws them toward it; entirely the party's choice whether to stop and investigate</li>
+    <li>Puzzle photos from the previous run still need uploading to Discord/D&amp;D Beyond before this comes up</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-nomansland-detail')">No Man's Land — full plan<span class="chip-sub">tap to expand</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-nomansland-detail">
+    <div class="card-name">No Man's Land <span class="tag">full arc, ran as 2 sessions previously</span></div>
+
+    <div class="beat-box"><span class="bb-label">Arrival — greeted on the dock</span><ul>
+      <li>Party greeted right on the dock by <strong>Mother</strong> — warm, welcoming: "Welcome to my home. I hope you'll make yourselves comfortable. You're completely welcome."</li>
+      <li>Invites them to dinner that evening at her tower to "get them settled in" and "become part of the family"</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">The town — surface illusion</span><ul>
+      <li>~20 houses, but most are empty — only reads as lived-in/bustling at a glance</li>
+      <li>Shopping options available</li>
+      <li>Tavern: patrons gambling, drinking, cards — but bartenders/staff are spirits compelled to serve, going through the motions with nothing real to pour. Unresponsive, mechanically competent</li>
+      <li>None of it is real — the whole town is Mother's illusion (payoff below)</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">The dead man &amp; the note (tavern)</span><ul>
+      <li>Mysterious figure in the tavern corner — actually dead, holding a note</li>
+      <li>Was a member of the original prophecy captain's first crew, searching for him after losing track of him</li>
+      <li>Note guides the party to his house</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">The one occupied house — secret basement</span><ul>
+      <li>Of the ~20 houses, this is the one that matters — outwardly also reads as mostly empty</li>
+      <li>Hidden entrance down to a secret basement</li>
+      <li>Contains: the dead man's full notes on Mother and the original captain; a stash of bullywug hats; a chained-up bullywug skeleton</li>
+      <li>Notes reveal the island's bullywugs are immune to Mother's charm magic — it's the hats granting immunity</li>
+      <li>Party can take/wear the hats to reduce their own susceptibility before dinner</li>
+      <li>Living bullywugs are a likely encounter while exploring above ground</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Dinner with Mother — first confrontation</span><ul>
+      <li>That evening, party goes up to Mother's tower for dinner as invited</li>
+      <li>First real confrontation — branches depending on the party/session:</li>
+      <li>— They agree to side with her / become "family" (help trap people), or</li>
+      <li>— She tries to bind them tighter under her control — may spark a short fight, time/pacing dependent, DM's call</li>
+      <li>Escalates into the tower puzzle sequence below</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">The tower collapses into a puzzle gauntlet</span><ul>
+      <li>Mother vanishes from the top floor mid-confrontation</li>
+      <li>Tower becomes a descending puzzle-gauntlet, one stage at a time — <strong>final puzzle list, replaces earlier draft:</strong></li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Puzzle 1 — the 26 Voice Stones</span><ul>
+      <li>Shipoo (well-read) can identify what the stones are if asked</li>
+      <li>Undisclosed rule (don't tell players outright): each word spoken to a stone must start with the next unused letter of the alphabet, A through Z in order, across the whole party's attempts collectively — not per-player</li>
+      <li>All 26 stones lit unlocks the door</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Puzzle 2 — the Mouth in the Wall</span><ul>
+      <li>Empty room; a mouth in the wall says "Show me something beautiful"</li>
+      <li>Door opens on any beautiful offering — DM judgment call on what counts</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Puzzle 3 — the Three Doors</span><ul>
+      <li>Classic truth-teller / liar logic puzzle — two guards, one always lies, one always tells the truth</li>
+      <li>Third guard isn't part of the logic puzzle at all — he just cries at everything said to him</li>
+      <li>His door is a dead-end: just a chair and a candle inside</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Puzzle 4 — optional, time-permitting</span><ul>
+      <li>Simplified replacement for a puzzle that flopped in the previous run</li>
+      <li>Two roles only, no turn structure: <strong>Player One</strong> moves blind through a 5ft-tile grid (traps, loot, a patrolling monster); <strong>Player Two</strong> can see everything and narrates freely to guide them, no communication restrictions</li>
+      <li>Cut this one first if the session's running long</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">After the puzzles</span><ul>
+      <li>The floor gives way — party falls into a swamp/pond cave below the tower</li>
+      <li>Inside: a giant beast skull repurposed as a house, containing newspapers/notes</li>
+      <li>Among them: the trapped prophecy captain's journal note, plus a set of increasingly strange drawings</li>
+      <li>Mother traps the party in roots for several days here before the fight actually begins</li>
+    </ul></div>
+
+    <div class="beat-box"><span class="bb-label">Aftermath — once Mother is defeated</span><ul>
+      <li>Bullywugs appear for a pool party in the lake</li>
+      <li>The party's ship (which vanished the moment they entered the Tower) reappears</li>
+      <li>Party is free to leave</li>
+    </ul></div>
+
+    <div class="npc-ddb-note"><strong>Confirmed:</strong> skipping the Tower entirely changes nothing content-wise — it just means the party reaches the <span class="xref" onclick="return jumpTo('boundary-crowsnest','the crow\'s nest')">Crow's Nest</span> sooner. If skipped, pad Crow's Nest content as a buffer.</div>
+
+    <div class="npc-quote"><span class="npc-quote-label">Secret — what the tower actually is</span>The entire tower is built from charmed, living, innocent people, held in the formation of a tower by Mother's magic. Once she dies, it collapses into a huge black lake — a chest of gold sits at the bottom. Land this as a gut-punch, not a passing detail.</div>
+    <div class="npc-quote"><span class="npc-quote-label">Secret — the town is illusion too</span>The real island doesn't look anything like the mostly-empty little town the party sees. Not yet decided what it looks like underneath outside of the tower/lake reveal — keep flexible for the table.</div>
+
+    <div class="beat-box" style="border-color:#a33;"><span class="bb-label">⚠ Mother — boss fight (design spec, NOT yet built in D&amp;D Beyond)</span><ul>
+      <li>Two-phase fight. Combatants: 3 level-5 PCs (<span class="xref" onclick="return jumpTo('player-billy','Billy Buckeye')">Billy</span>, <span class="xref" onclick="return jumpTo('player-orin','Orin the Jackhammer')">Orin</span>, <span class="xref" onclick="return jumpTo('player-cheesenwine','Cheese n Wine')">Cheese n Wine</span>) + <span class="xref" onclick="return toggleCard('sp-mercy')">Mercy</span>, Willow, <span class="xref" onclick="return toggleCard('sp-jeoph')">Jeoph</span> as weak active combatants (d6/d8 hits, miss often). <span class="xref" onclick="return toggleCard('sp-chefs')">Jezebel, Saquiphony</span>, <span class="xref" onclick="return toggleCard('sp-steven')">Steven</span>, <span class="xref" onclick="return toggleCard('sp-shipoo-2')">Shipoo</span> present narratively only, not fighting</li>
+    </ul></div>
+    <div class="beat-box"><span class="bb-label">Phase 1 — Banshee-Touched</span><ul>
+      <li>AC 14, HP ~90 (of ~130 total), fly 40ft, Incorporeal Glide, resistant to nonmagical bludgeoning/piercing/slashing</li>
+      <li>Multiattack: 2× Chilling Touch (+6 to hit, 2d6+3 necrotic)</li>
+      <li>Wail (recharge 5–6): 20ft radius, DC14 CON save, fail = frightened + 2d8 psychic</li>
+      <li>Legendary actions (3/round): Move, Chilling Touch, Summon the Deep (spawns a Grasping Tentacle add — stats below)</li>
+      <li><strong>Transition:</strong> ceiling opens, bodies rain down, DEX save vs. suffocation/burial — party ends up fighting atop the resulting body pile. Banshee form vanishes; Mother reforms as a "throne of bodies"</li>
+    </ul></div>
+    <div class="beat-box"><span class="bb-label">Phase 2 — Sea Hag Ascendant</span><ul>
+      <li>Triggers at ~45 HP remaining. Gets a temp HP burst on transition</li>
+      <li>AC 16, loses flight, swim 40ft, Regeneration 5/turn (unless hit by fire or radiant damage on the previous turn)</li>
+      <li>Death Glare (recharge 6): DC14 WIS save, paralyzes a target already frightened</li>
+      <li>Multiattack: 2× Claw (+7 to hit, 2d8+4 slashing)</li>
+      <li>Raise the Drowned (recharge 5–6): summons 2 standard Skeletons — pull the stock D&amp;D Beyond stat block as-is, no changes</li>
+      <li>Legendary actions: Move, Claw, Raise the Drowned</li>
+    </ul></div>
+    <div class="beat-box"><span class="bb-label">Add — Grasping Tentacle</span><ul>
+      <li>AC 11, HP 15, +5 to hit, 1d8+3 bludgeoning + grapple (DC13 STR to escape). Can't move</li>
+    </ul></div>
+    <div class="npc-ddb-note">⚠ Mother is homebrew and does not exist in D&amp;D Beyond yet — the two-phase stat block above is the full design spec. Build her as a custom monster in the VTT before this fight is run, then this box can be trimmed down to a pointer.</div>
+  </div>
+
+  <div class="npc-ddb-note">What follows this scene — Crow's Nest arrival — is now planned in full below (Scenes 4 &amp; 5).</div>
+</div>
+
+<div class="scene-block">
+  <div class="scene-title">Scene 4 — Arrival at the Crow's Nest</div>
+  <div class="setup-box"><span class="sb-label">Setting the scene</span>Party arrives at the <span class="xref" onclick="return jumpTo('boundary-crowsnest','the crow\'s nest')">Crow's Nest</span> broke — no gold, no standing. The city has 5 wealth-tier districts stacked from poverty to palace, and the whole point of this arc is working their way up before the Coronation. Today's session only needs to cover getting in and landing in District 1.</div>
+
+  <div class="beat-box"><span class="bb-label">Checkpoint 1 — boat search</span><ul>
+    <li>Silent, all-business guard. No roleplay hook here — pure process</li>
+    <li>Searches the boat, waves them through to checkpoint 2</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">Checkpoint 2 — declaration &amp; entry fee</span><ul>
+    <li>Handled by <span class="xref" onclick="return toggleCard('sp-bartrude')">Bartrude</span> — friendly, jokey, handles the declaration and entry fee</li>
+    <li>Openly amused once he learns they're broke — upfront that they're in for a rough time. Banter, not cruelty</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-bartrude')">Bartrude<span class="chip-sub">friendly, jokey guard</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-bartrude">
+    <div class="card-name">Bartrude <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Checkpoint 2 guard — declaration &amp; entry fee. The friendly face of the border, in contrast to the silent Checkpoint 1 guard and the flat tunnel escort.</div>
+    <h4>Play him as</h4><ul><li>Jokey, warm, genuinely likeable</li><li>Openly amused once he clocks they're broke — teases them about the rough road ahead, but it's banter, not cruelty</li></ul>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="beat-box"><span class="bb-label">Tunnel escort</span><ul>
+    <li>Escorted by a miserable, flat-affect guard — no personality to play up, deliberately grey</li>
+    <li>Only line: "Keep working. If you want to move up, it'll cost you ten thousand."</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">The docks — three doors</span><ul>
+    <li>Ship is taken off their hands by a valet-type NPC (unnamed, minor)</li>
+    <li>Three doors here — <strong>only the LEFT door matters today.</strong> It leads through a 5-minute dark tunnel into the District 1 slum</li>
+    <li>Other two doors: unexplored, not used for now — leave unaddressed if players don't ask</li>
+  </ul></div>
+</div>
+
+<div class="scene-block">
+  <div class="scene-title">Scene 5 — District 1, Day One (vibe: the movie "Holes")</div>
+  <div class="setup-box"><span class="sb-label">Setting the scene</span>Grim, grinding poverty-tier logistics — a bunkhouse, a work shift, a monster in the sewers. The wage math isn't rigged on paper; it's the environment around it that's rigged. Play it straight and let the numbers speak for themselves.</div>
+
+  <div class="beat-box"><span class="bb-label">Housing</span><ul>
+    <li>Mandatory shared bunkhouse (40-50 people) since they're broke</li>
+    <li>Must work 5-6 hours/day minimum (splittable across the week) just to keep the housing</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">The economy — do the math openly</span><ul>
+    <li>Wage: 8gp/hour. A full 8-hour day = 64gp</li>
+    <li>Baseline living costs (bunk + food): 30gp/day</li>
+    <li>Net savings: ~34gp/day, best case</li>
+    <li>Buy-in to move up to District 2: 8,000-10,000gp — near-impossible, roughly 7-10 months even at a perfect grind</li>
+  </ul></div>
+
+  <div class="npc-quote"><span class="npc-quote-label">Secret — the real mechanic</span>The wage math isn't rigged on paper — the environment is. The city plants scammers, conmen, and fake criminals to bleed residents' savings via believable in-fiction events. <strong>Not for this Tuesday specifically</strong> — reserved: whenever the party gets genuinely close to hitting their buy-in target, spring a last-minute expensive catastrophe (e.g. a medical bill) that wipes out most of their savings. Hold this for maximum impact later, don't spend it early.</div>
+
+  <div class="beat-box"><span class="bb-label">Bunkmates — 7 total</span><ul>
+    <li>First contacts, greet the party on arrival: Pruett and Squint</li>
+    <li>Also present in the bunkhouse: Dolly, Nubs, Reverend Coyle, Skinny Pete &amp; Fat Pete, Widow Hask</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-pruett')">Pruett<span class="chip-sub">ancient, cheerful</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-squint')">Squint<span class="chip-sub">gambling addict, banker</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-dolly')">Dolly<span class="chip-sub">gentle strongwoman</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-nubs')">Nubs<span class="chip-sub">missing a hand</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-coyle')">Reverend Coyle<span class="chip-sub">fake preacher</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-petes')">Skinny Pete &amp; Fat Pete<span class="chip-sub">bickering traders</span></button>
+    <button class="npc-chip" onclick="return toggleCard('sp-hask')">Widow Hask<span class="chip-sub">keeps his boots</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-pruett">
+    <div class="card-name">Pruett <span class="tag">new — first contact</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Ancient bunkmate. Cheerful despite everything — every single day insists he's "one payment away" from moving up.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-squint">
+    <div class="card-name">Squint <span class="tag">new — first contact</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Gambling addict. Also the bunkhouse's informal banker — the one people go to for a loan or to place a bet.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-dolly">
+    <div class="card-name">Dolly <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Gentle strongwoman. Physically imposing but cries easily — plays against type.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-nubs">
+    <div class="card-name">Nubs <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Missing a hand — and proud of it, wears the story rather than hiding it.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-coyle">
+    <div class="card-name">Reverend Coyle <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>A fake preacher — but his advice is oddly good despite the con. Good source of genuine guidance dressed up as a scam.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-petes">
+    <div class="card-name">Skinny Pete &amp; Fat Pete <span class="tag">new — duo</span></div>
+    <div class="fact"><span class="fact-label">Who</span>A bickering pair running a small trading racket out of the bunkhouse.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet(s) if needed</div>
+  </div>
+
+  <div class="npc-card" id="sp-hask">
+    <div class="card-name">Widow Hask <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Believes her husband "made it out" of District 1 — keeps his old boots as proof/hope.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="beat-box"><span class="bb-label">Day 1 sequence</span><ul>
+    <li>Arrive in the afternoon — greeted and sized-up by Pruett &amp; Squint</li>
+    <li>First night: no food. They haven't earned any yet — must lean on the other bunkmates at dinner</li>
+    <li>Next morning: immediately assigned their first work shift — cleaning the sewers</li>
+  </ul></div>
+
+  <div class="beat-box"><span class="bb-label">The sewer shift</span><ul>
+    <li>Working alongside <span class="xref" onclick="return toggleCard('sp-jackwes')">Jack Wes</span> — fellow worker in the same uniform</li>
+    <li>Encounter: a Gibbering Mouther — <strong>standard D&amp;D Beyond stat block, pull as-is, no changes.</strong> Reskinned narratively only, as a churning mass of fused rats/sludge/waste from the magic-warped sewers — mechanics untouched</li>
+    <li>Aberrant Ground: 10ft difficult terrain, STR save or speed 0</li>
+    <li>Gibbering: 20ft radius, WIS save each turn or a random effect</li>
+    <li>6 weak bites/round; blind but has blindsight</li>
+  </ul></div>
+
+  <div class="npc-chip-row">
+    <button class="npc-chip" onclick="return toggleCard('sp-jackwes')">Jack Wes<span class="chip-sub">lost trying to escape, keep as recurring</span></button>
+  </div>
+
+  <div class="npc-card" id="sp-jackwes">
+    <div class="card-name">Jack Wes <span class="tag">new — keep recurring</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Fellow sewer worker, same uniform. Tried tunneling his own way out once and got lost — been down there so long he's growing gills. Now the idea of leaving scares him more than staying does.</div>
+    <h4>Use as</h4><ul><li>A recurring thread, not a one-off — good candidate to resurface later in the District 1 arc</li></ul>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div>
+  </div>
+
+  <div class="npc-ddb-note">Districts 2-5 (Working Class, Wealthy, Theatre/Concert, Palace) are not yet built — stubbed only, flag for future prep.</div>
+</div>` }
+  ]
+};
+
+let data = null;
+let saveTimeout = null;
+let currentView = 'glossary';
+let viewHistory = [];
+let sessionView = false;
+function deepClone(o){ return JSON.parse(JSON.stringify(o)); }
+
+function applyEditability(){
+  document.querySelectorAll('.content[contenteditable], .chapter-title[contenteditable], .check-text[contenteditable], td[contenteditable]').forEach(el => {
+    el.contentEditable = sessionView ? 'false' : 'true';
+  });
+}
+
+async function loadData(){
+  try{
+    const res = await window.storage.get(STORAGE_KEY);
+    data = res && res.value ? JSON.parse(res.value) : deepClone(DEFAULT_DATA);
+  }catch(e){ data = deepClone(DEFAULT_DATA); }
+  render();
+  setSaveStatus('saved');
+}
+function setSaveStatus(state){
+  const bar = document.getElementById('savebar');
+  const label = document.getElementById('saveLabel');
+  if(state==='saving'){ bar.classList.remove('saved'); label.textContent='Saving…'; }
+  else if(state==='saved'){ bar.classList.add('saved'); label.textContent='All changes saved'; }
+  else { bar.classList.remove('saved'); label.textContent='Loading…'; }
+}
+function scheduleSave(){
+  setSaveStatus('saving');
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(async () => {
+    try{ await window.storage.set(STORAGE_KEY, JSON.stringify(data)); setSaveStatus('saved'); }
+    catch(e){ console.error('Save failed', e); }
+  }, 500);
+}
+
+function slugify(text){
+  return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
+// Inline NPC chip/card toggle — used throughout the Session Plan chapter
+function toggleCard(id){
+  const card = document.getElementById(id);
+  if(card) card.classList.toggle('open');
+  return false;
+}
+
+// Session NPCs quick-access panel — attached directly to <body> (not nested in the
+// page content) so `position:fixed` reliably tracks the viewport while scrolling on
+// every browser/webview. Only injected while the Session Plan page is open.
+const SP_NPC_PANEL_HTML = `<button class="npc-panel-toggle" id="spNpcPanelToggle">NPCs</button>
+<div class="npc-panel-overlay" id="spNpcPanelOverlay"></div>
+<div class="npc-panel" id="spNpcPanel">
+  <button class="npc-panel-close" id="spNpcPanelClose">✕</button>
+  <div class="npc-panel-head">All Session NPCs</div>
+  <p style="font-size:11px;color:#6b5a3a;font-style:italic;margin:-4px 0 8px;">Every NPC this session, regardless of scene — for if the party goes off-script.</p>
+  <button class="npc-chip" onclick="return toggleCard('panel-mercy')">Mercy<span class="chip-sub">cleric, party anchor</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-mercy"><div class="card-name">Mercy Murdersome</div>
+    <div class="fact"><span class="fact-label">New thread</span>Alt personality — only when Alex plays her. Wacky/chaotic. Mercy doesn't know it exists. No trigger — keep random. Possible romance seed: Cheese n Wine.</div>
+    <h4>Quick lines</h4><ul><li>Village army medic</li><li>Banished — "war crime" of mercy</li><li>Pirates = last shot at survival</li></ul>
+    <h4>If pressed</h4><ul><li>Wants her name cleared</li><li>Judges "civilised" folk vs. pirate-recruit villages</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"You lot call it soft. Back home they called it treason."</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-jeoph')">Jeoph<span class="chip-sub">the party's captain</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-jeoph"><div class="card-name">Jeoph McGullywuff</div>
+    <div class="fact"><span class="fact-label">Standing fact</span>Holds the prophecy as captain. Only transfers via mutiny or killing holder — not automatic.</div>
+    <h4>Beats</h4><ul><li>Homesick, misses parents</li><li>Guilt re: crashed ship (not his fault)</li><li>Trying to seem respectable, wants to go home</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"One more port... I just really want to see my mum."</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-shipoo')">Shipoo<span class="chip-sub">soul in a body</span><span class="npc-panel-scene-tag">Scenes 1 &amp; 2</span></button>
+  <div class="npc-card" id="panel-shipoo"><div class="card-name">Shipoo</div>
+    <h4>Remember</h4><ul><li>"She"/tutu, but male, "he" — running bit</li><li>Husband Oogey, child Poo (also male, also fem-presenting)</li><li>Snarlywinkle kidnapped Shipoo+Poo → forced labor → Aric killed Shipoo, soul trapped in lighthouse → Poo later left too</li></ul>
+    <h4>Scene 1 — On the Boat</h4><ul><li>Overjoyed, free, back in a body</li><li>Wants: find Oogey + Poo. No leads.</li><li>Asks party questions more than answers</li></ul>
+    <h4>Scene 2 — Chase &amp; Boarding</h4><ul><li>Had been hiding to avoid trouble with Snarlywinkle</li><li>Reveals herself mid-fight to stop Willowheart</li><li>Appeals on shared goal of finding Poo</li></ul>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-jacklyn')">Jacklyn<span class="chip-sub">mermaid</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-jacklyn"><div class="card-name">Jacklyn McKacklyn</div>
+    <div class="fact"><span class="fact-label">Today</span>Stood up by Orin (date → heist, he forgot). Upset. Brings it up herself.</div>
+    <h4>If asked</h4><ul><li>Older than the planet</li><li>Ex sea witches — too controlling (banned teleport)</li><li>Had magic before sea witches did</li><li>Howard: confirms met him, no more</li><li>Loves talking Davin (ex)</li></ul>
+    <h4>Davin, short version</h4><ul><li>Last sea dragons, freed by Howard w/ her</li><li>Centuries together</li><li>He: magic users unworthy, death the answer</li><li>Split: she says use magic freely for good</li></ul>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-judy')">Judy<span class="chip-sub">invisible, following</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-judy"><div class="card-name">Judy</div>
+    <div class="fact"><span class="fact-label">Today</span>Invisible the whole time — saw everything, incl. memory wipe. Still remembers Simon, Ruby, Persephone being taken (only her + Orin do). Raw grief. Brings it up herself.</div>
+    <div class="npc-ddb-note">Sheet: D&amp;D Beyond</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-steven')">Steven<span class="chip-sub">Soul Room survivor — new</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-steven"><div class="card-name">Steven <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Soul Room survivor, blank slate. Trauma doesn't define him. Purpose: resurface Howard thread.</div>
+    <h4>Beat</h4><ul><li>Overheard guards/Warden say "Howard" — scared tone</li><li>Doesn't know who Howard is, just that it's bad</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"Made my skin crawl, and I don't even know who that is."</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-chefs')">Chefs<span class="chip-sub">ex-Crow's Nest — new</span><span class="npc-panel-scene-tag">Scene 1</span></button>
+  <div class="npc-card" id="panel-chefs"><div class="card-name">Jezebel &amp; Saquiphony <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>Ex Crow's Nest chefs, hated it, swore never back. (Irony: that's where party's headed.)</div>
+    <h4>Play as</h4><ul><li>Double act, constantly clash</li><li>Same instinct at once — bump heads/hands, talk over each other</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Exchange</span>"Docked pay for breathing too loud near the ovens." / "Docked pay? Scrubbing pots 'til your hands bled." — then bicker over who told it better.</div>
+    <div class="npc-ddb-note">Crow's Nest lines TBD — flesh out once location's planned</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-willowheart')">Willowheart<span class="chip-sub">druid first mate — new</span><span class="npc-panel-scene-tag">Scene 2</span></button>
+  <div class="npc-card" id="panel-willowheart"><div class="card-name">Willowheart <span class="tag">new</span></div>
+    <div class="fact"><span class="fact-label">Who</span>15yo druid, first mate under Snarlywinkle. Friend of Poo (also a first mate). Loves piracy's freedom but wants to legitimize it — lift the ban properly rather than stay outlaw.</div>
+    <h4>Today</h4><ul><li>Boards the party's ship after catching up — interrogates them re: ditching siege prep</li><li>Interrogation escalates to a fight</li><li>Stands down only once Shipoo reveals herself mid-fight</li></ul>
+    <h4>Wants</h4><ul><li>Weighing a mutiny against Snarlywinkle — turn Crabshack into a genuinely pirate-friendly community</li><li>Warm toward the party if they read as strong/trustworthy — may offer to team up</li><li>Could go three ways post-fight: ally, mole reporting back to Snarlywinkle, or stays hostile — read the table</li></ul>
+    <div class="npc-quote"><span class="npc-quote-label">Line</span>"I need to find a way to lift the ban on piracy."</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-bartrude')">Bartrude<span class="chip-sub">friendly, jokey guard</span><span class="npc-panel-scene-tag">Scene 4</span></button>
+  <div class="npc-card" id="panel-bartrude"><div class="card-name">Bartrude</div>
+    <div class="fact"><span class="fact-label">Who</span>Checkpoint 2 guard — declaration &amp; entry fee. Jokey, warm, openly amused once he clocks the party's broke — banter, not cruelty.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-pruett')">Pruett<span class="chip-sub">ancient, cheerful</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-pruett"><div class="card-name">Pruett</div>
+    <div class="fact"><span class="fact-label">Who</span>Ancient bunkmate, first contact. Cheerful — insists daily he's "one payment away."</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-squint')">Squint<span class="chip-sub">gambling addict, banker</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-squint"><div class="card-name">Squint</div>
+    <div class="fact"><span class="fact-label">Who</span>Gambling addict, first contact. Also the bunkhouse's informal banker.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-dolly')">Dolly<span class="chip-sub">gentle strongwoman</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-dolly"><div class="card-name">Dolly</div>
+    <div class="fact"><span class="fact-label">Who</span>Gentle strongwoman bunkmate. Physically imposing, cries easily.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-nubs')">Nubs<span class="chip-sub">missing a hand</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-nubs"><div class="card-name">Nubs</div>
+    <div class="fact"><span class="fact-label">Who</span>Bunkmate missing a hand — proud of it.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-coyle')">Reverend Coyle<span class="chip-sub">fake preacher</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-coyle"><div class="card-name">Reverend Coyle</div>
+    <div class="fact"><span class="fact-label">Who</span>Fake preacher bunkmate — advice is oddly good despite the con.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-petes')">Skinny Pete &amp; Fat Pete<span class="chip-sub">bickering traders</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-petes"><div class="card-name">Skinny Pete &amp; Fat Pete</div>
+    <div class="fact"><span class="fact-label">Who</span>Bickering duo running a small trading racket in the bunkhouse.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet(s) if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-hask')">Widow Hask<span class="chip-sub">keeps his boots</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-hask"><div class="card-name">Widow Hask</div>
+    <div class="fact"><span class="fact-label">Who</span>Believes her husband "made it out" — keeps his old boots.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+
+  <button class="npc-chip" onclick="return toggleCard('panel-jackwes')">Jack Wes<span class="chip-sub">lost trying to escape — recurring</span><span class="npc-panel-scene-tag">Scene 5</span></button>
+  <div class="npc-card" id="panel-jackwes"><div class="card-name">Jack Wes</div>
+    <div class="fact"><span class="fact-label">Who</span>Sewer coworker — tried tunneling out, got lost, now growing gills. Leaving scares him more than staying. Keep as a recurring thread.</div>
+    <div class="npc-ddb-note">New — add D&amp;D Beyond sheet if needed</div></div>
+</div>`;
+
+function toggleNpcPanel(){
+  const panel = document.getElementById('spNpcPanel');
+  const overlay = document.getElementById('spNpcPanelOverlay');
+  if(panel) panel.classList.toggle('open');
+  if(overlay) overlay.classList.toggle('open');
+}
+
+function injectSpNpcPanel(){
+  if(document.getElementById('spNpcPanelToggle')) return; // already present
+  const wrap = document.createElement('div');
+  wrap.id = 'spNpcPanelWrap';
+  wrap.innerHTML = SP_NPC_PANEL_HTML;
+  document.body.appendChild(wrap);
+  document.getElementById('spNpcPanelToggle').addEventListener('click', toggleNpcPanel);
+  document.getElementById('spNpcPanelClose').addEventListener('click', toggleNpcPanel);
+  document.getElementById('spNpcPanelOverlay').addEventListener('click', toggleNpcPanel);
+}
+
+function removeSpNpcPanel(){
+  const wrap = document.getElementById('spNpcPanelWrap');
+  if(wrap) wrap.remove();
+}
+
+// Cross-reference jump: switch chapters, then scroll to the specific h3
+// heading whose text matches `anchorText` (case-insensitive, slugified).
+function jumpTo(viewId, anchorText){
+  showView(viewId);
+  setTimeout(() => {
+    const id = slugify(anchorText);
+    const el = document.getElementById(id);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 50);
+  return false;
+}
+
+function showCalMonth(month, btn){
+  document.querySelectorAll('.calendar-month').forEach(m => m.classList.remove('active'));
+  document.getElementById('cal-' + month).classList.add('active');
+  document.querySelectorAll('.calendar-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showView(viewId, isBack){
+  if(!isBack && currentView && currentView !== viewId){
+    viewHistory.push(currentView);
+  }
+  currentView = viewId;
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  const target = document.getElementById('view-' + viewId);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('#sidebarNav a').forEach(a => a.classList.remove('active'));
+  const navLink = document.querySelector('#sidebarNav a[data-view="' + viewId + '"]');
+  if(navLink) navLink.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  if(viewId === 'session-plan'){ injectSpNpcPanel(); } else { removeSpNpcPanel(); }
+  window.scrollTo(0,0);
+}
+
+function goBack(){
+  if(!viewHistory.length) return;
+  const prev = viewHistory.pop();
+  showView(prev, true);
+}
+
+function renderSidebar(){
+  const nav = document.getElementById('sidebarNav');
+  nav.innerHTML = '';
+  const glossaryLink = document.createElement('a');
+  glossaryLink.href = '#'; glossaryLink.dataset.view = 'glossary'; glossaryLink.textContent = 'Glossary';
+  glossaryLink.addEventListener('click', e => { e.preventDefault(); showView('glossary'); });
+  nav.appendChild(glossaryLink);
+  const hr = document.createElement('hr'); hr.className = 'divider-line';
+  nav.appendChild(hr);
+  data.chapters.filter(ch => !ch.sub && !ch.sessionPlan).forEach(ch => {
+    const a = document.createElement('a');
+    a.href = '#'; a.dataset.view = ch.id; a.textContent = ch.title;
+    a.addEventListener('click', e => { e.preventDefault(); showView(ch.id); });
+    nav.appendChild(a);
+  });
+  const spChapter = data.chapters.find(ch => ch.sessionPlan);
+  if(spChapter){
+    const spBtn = document.createElement('a');
+    spBtn.href = '#'; spBtn.dataset.view = spChapter.id; spBtn.className = 'session-plan-nav-btn';
+    spBtn.textContent = spChapter.title;
+    spBtn.addEventListener('click', e => { e.preventDefault(); showView(spChapter.id); });
+    nav.appendChild(spBtn);
+  }
+  const active = document.querySelector('#sidebarNav a[data-view="' + currentView + '"]');
+  if(active) active.classList.add('active');
+}
+
+function renderGlossaryView(){
+  const wrap = document.createElement('section');
+  wrap.className = 'view'; wrap.id = 'view-glossary';
+  const head = document.createElement('div');
+  head.className = 'view-head';
+  head.innerHTML = `<div class="eyebrow">Quick Index</div><h1>Glossary</h1>`;
+  wrap.appendChild(head);
+  const note = document.createElement('p');
+  note.style.fontSize = '14px'; note.style.color = '#6b5a3a'; note.style.fontStyle = 'italic';
+  note.textContent = 'Every top-level chapter, one tap away. Sub-pages (individual NPCs, islands, players, artifacts) live inside their hub chapter, or find them with search.';
+  wrap.appendChild(note);
+  const grid = document.createElement('div');
+  grid.className = 'glossary-grid';
+  data.chapters.filter(ch => !ch.sub && !ch.sessionPlan).forEach(ch => {
+    const a = document.createElement('a');
+    a.href = '#'; a.className = 'glossary-card';
+    a.innerHTML = `<div class="gnum">${ch.num}</div><div class="gtitle">${ch.title}</div>`;
+    a.addEventListener('click', e => { e.preventDefault(); showView(ch.id); });
+    grid.appendChild(a);
+  });
+  wrap.appendChild(grid);
+  const addBtn = document.createElement('button');
+  addBtn.className = 'add-chapter-inline';
+  addBtn.textContent = '+ Add a new chapter';
+  addBtn.addEventListener('click', addChapter);
+  wrap.appendChild(addBtn);
+  return wrap;
+}
+
+function render(){
+  const container = document.getElementById('views');
+  container.innerHTML = '';
+  container.appendChild(renderGlossaryView());
+
+  data.chapters.forEach((ch) => {
+    const el = document.createElement('section');
+    el.className = 'view';
+    el.id = 'view-' + ch.id;
+    const head = document.createElement('div');
+    head.className = 'view-head';
+    head.innerHTML = `<div class="eyebrow">${ch.sub ? 'Reference' : ch.num}</div><h1 class="chapter-title" contenteditable="true">${ch.title}</h1>`;
+    el.appendChild(head);
+    head.querySelector('.chapter-title').addEventListener('input', e => { ch.title = e.target.innerText; renderSidebar(); scheduleSave(); });
+
+    const actions = document.createElement('div');
+    actions.className = 'chapter-actions';
+    actions.innerHTML = `<button data-action="delete">Delete Chapter</button>`;
+    actions.querySelector('[data-action="delete"]').addEventListener('click', () => {
+      if(confirm(`Delete "${ch.title}"?`)){ data.chapters = data.chapters.filter(c => c.id !== ch.id); showView('glossary'); render(); scheduleSave(); }
+    });
+    el.appendChild(actions);
+
+    if(ch.type === 'html'){
+      const content = document.createElement('div');
+      content.className = 'content'; content.contentEditable = 'true'; content.innerHTML = ch.content;
+      content.querySelectorAll('h3').forEach(h => {
+        if(!h.id) h.id = slugify(h.textContent);
+      });
+      content.addEventListener('input', () => { ch.content = content.innerHTML; scheduleSave(); });
+      el.appendChild(content);
+    }
+
+    if(ch.type === 'ddb'){
+      const note = document.createElement('p');
+      note.style.fontSize = '13px'; note.style.fontStyle = 'italic'; note.style.color = '#6b5a3a';
+      note.textContent = 'Full stat blocks and initiative live in D\u2019D Beyond \u2014 this is just a pointer so you can find things fast mid-session.';
+      el.appendChild(note);
+      const table = document.createElement('table');
+      table.className = 'ddb-table';
+      table.innerHTML = `<tr><th>Name</th><th>What it is</th><th>Where in D&D Beyond</th><th></th></tr>`;
+      ch.rows.forEach((row, i) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td contenteditable="true">${row.name}</td><td contenteditable="true">${row.what}</td><td contenteditable="true">${row.where}</td><td><button class="remove-row">✕</button></td>`;
+        const tds = tr.querySelectorAll('td[contenteditable]');
+        tds[0].addEventListener('input', e => { row.name = e.target.innerText; scheduleSave(); });
+        tds[1].addEventListener('input', e => { row.what = e.target.innerText; scheduleSave(); });
+        tds[2].addEventListener('input', e => { row.where = e.target.innerText; scheduleSave(); });
+        tr.querySelector('.remove-row').addEventListener('click', () => { ch.rows.splice(i,1); render(); showView(ch.id); scheduleSave(); });
+        table.appendChild(tr);
+      });
+      el.appendChild(table);
+      const addBtn = document.createElement('button');
+      addBtn.className = 'add-row'; addBtn.textContent = '+ Add entry';
+      addBtn.addEventListener('click', () => { ch.rows.push({name:'New NPC/Monster', what:'', where:''}); render(); showView(ch.id); scheduleSave(); });
+      el.appendChild(addBtn);
+    }
+
+    if(ch.type === 'checklist'){
+      const wrap = document.createElement('div'); wrap.className = 'checklist';
+      ch.items.forEach((item, i) => {
+        const label = document.createElement('label');
+        if(item.checked) label.classList.add('checked');
+        label.innerHTML = `<input type="checkbox" ${item.checked?'checked':''}><span class="check-text" contenteditable="true">${item.text}</span><button class="remove-check">✕</button>`;
+        const cb = label.querySelector('input');
+        cb.addEventListener('change', () => { item.checked = cb.checked; label.classList.toggle('checked', cb.checked); scheduleSave(); });
+        label.querySelector('.check-text').addEventListener('input', e => { item.text = e.target.innerText; scheduleSave(); });
+        label.querySelector('.remove-check').addEventListener('click', () => { ch.items.splice(i,1); render(); showView(ch.id); scheduleSave(); });
+        wrap.appendChild(label);
+      });
+      el.appendChild(wrap);
+      const addBtn = document.createElement('button'); addBtn.className = 'add-check'; addBtn.textContent = '+ Add item';
+      addBtn.addEventListener('click', () => { ch.items.push({text:'New item', checked:false}); render(); showView(ch.id); scheduleSave(); });
+      el.appendChild(addBtn);
+    }
+
+    if(ch.type === 'log'){
+      const wrap = document.createElement('div');
+      ch.entries.forEach((entry, i) => {
+        const div = document.createElement('div'); div.className = 'log-entry';
+        div.innerHTML = `<div class="log-date"><input type="text" value="${entry.date}" placeholder="Date / Session #"><button class="remove-log">✕</button></div>
+          <div class="content" contenteditable="true">${entry.text}</div>`;
+        div.querySelector('input').addEventListener('input', e => { entry.date = e.target.value; scheduleSave(); });
+        div.querySelector('.content').addEventListener('input', e => { entry.text = e.target.innerHTML; scheduleSave(); });
+        div.querySelector('.remove-log').addEventListener('click', () => { ch.entries.splice(i,1); render(); showView(ch.id); scheduleSave(); });
+        wrap.appendChild(div);
+      });
+      el.appendChild(wrap);
+      const addBtn = document.createElement('button'); addBtn.className = 'add-log'; addBtn.textContent = '+ Add session entry';
+      addBtn.addEventListener('click', () => { ch.entries.unshift({date:'New session', text:'What happened…'}); render(); showView(ch.id); scheduleSave(); });
+      el.appendChild(addBtn);
+    }
+    const backWrap = document.createElement('button');
+    backWrap.className = 'bottom-back-btn';
+    backWrap.textContent = '← Back';
+    backWrap.addEventListener('click', () => goBack());
+    el.appendChild(backWrap);
+
+    container.appendChild(el);
+  });
+
+  renderSidebar();
+  showView(currentView);
+  applyEditability();
+  buildSearchIndex();
+}
+
+function addChapter(){
+  const n = data.chapters.length + 1;
+  const newCh = { id:'c'+Date.now(), num:'Chapter '+n, title:'New Chapter', type:'html', content:'<p>Start writing…</p>' };
+  data.chapters.push(newCh);
+  render();
+  showView(newCh.id);
+  scheduleSave();
+}
+
+document.getElementById('resetBtn').addEventListener('click', async () => {
+  if(confirm('Reset everything back to the original DM Bible? This discards your edits.')){ data = deepClone(DEFAULT_DATA); currentView = 'glossary'; render(); scheduleSave(); }
+});
+document.getElementById('exportBtn').addEventListener('click', () => {
+  let text = 'THE DADS — DM BIBLE\n\n';
+  data.chapters.forEach(ch => {
+    text += `${ch.num}: ${ch.title}\n${'-'.repeat(40)}\n`;
+    if(ch.type === 'html'){ const tmp=document.createElement('div'); tmp.innerHTML=ch.content; text += tmp.innerText + '\n\n'; }
+    else if(ch.type === 'ddb'){ ch.rows.forEach(r => { text += `${r.name} — ${r.what} — D&D Beyond: ${r.where}\n`; }); text += '\n'; }
+    else if(ch.type === 'checklist'){ ch.items.forEach(i => { text += `[${i.checked?'x':' '}] ${i.text}\n`; }); text += '\n'; }
+    else if(ch.type === 'log'){ ch.entries.forEach(e => { const tmp=document.createElement('div'); tmp.innerHTML=e.text; text += `${e.date}\n${tmp.innerText}\n\n`; }); }
+  });
+  const blob = new Blob([text], {type:'text/plain'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'the-dads-dm-bible.txt'; a.click();
+  URL.revokeObjectURL(url);
+});
+document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+/* ---------- Search ---------- */
+// Indexes every chapter title, plus every h3 heading inside each chapter's
+// content, so you can jump straight to a topic without knowing which
+// chapter it lives in. Rebuilt every render() so it never goes stale.
+let searchIndex = [];
+
+function buildSearchIndex(){
+  searchIndex = [];
+  data.chapters.forEach(ch => {
+    searchIndex.push({ name: ch.title, viewId: ch.id, type: 'chapter' });
+    if(ch.type === 'html' && ch.content){
+      const tmp = document.createElement('div');
+      tmp.innerHTML = ch.content;
+      tmp.querySelectorAll('h3').forEach(h => {
+        const name = h.textContent.trim();
+        if(name) searchIndex.push({ name, viewId: ch.id, type: ch.title });
+      });
+    }
+  });
+}
+
+function runSearch(query){
+  const box = document.getElementById('searchResults');
+  query = query.trim().toLowerCase();
+  if(!query){ box.innerHTML = ''; box.classList.remove('open'); return; }
+  const matches = searchIndex.filter(i => i.name.toLowerCase().includes(query)).slice(0, 12);
+  if(!matches.length){ box.innerHTML = '<div class="search-empty">No matches</div>'; box.classList.add('open'); return; }
+  box.innerHTML = matches.map(m =>
+    `<a href="#" class="search-result" data-view="${m.viewId}">${m.name}<span class="search-result-type">${m.type}</span></a>`
+  ).join('');
+  box.classList.add('open');
+}
+
+document.getElementById('siteSearch').addEventListener('input', e => runSearch(e.target.value));
+document.addEventListener('click', e => {
+  const result = e.target.closest('.search-result');
+  if(result){
+    e.preventDefault();
+    showView(result.dataset.view);
+    document.getElementById('searchResults').innerHTML = '';
+    document.getElementById('searchResults').classList.remove('open');
+    document.getElementById('siteSearch').value = '';
+    return;
+  }
+  if(!e.target.closest('.topbar-search')){
+    document.getElementById('searchResults').classList.remove('open');
+  }
+});
+
+document.getElementById('modeToggle').addEventListener('click', () => {
+  sessionView = !sessionView;
+  document.body.classList.toggle('session-view', sessionView);
+  document.getElementById('modeToggle').textContent = sessionView ? 'Edit Mode' : 'Session View';
+  applyEditability();
+});
+
+loadData();
+</script>
+</body>
+</html>
